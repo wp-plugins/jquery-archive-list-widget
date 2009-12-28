@@ -1,7 +1,7 @@
 <?php
 /*
  Plugin Name: jQuery Archive List Widget
- Plugin URI: http://skatox.com/blog/2009/12/25/jquery-archive-list-widget/
+ Plugin URI: http://skatox.com/blog/2009/12/26/jquery-archive-list-widget/
  Description: A simple jQuery widget for displaying an archive list with some effects (inspired by Collapsible Archive Widget)
  Author: Miguel Useche
  Version: 0.1
