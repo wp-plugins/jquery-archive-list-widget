@@ -63,7 +63,7 @@ function aux_print_js_code($ex_sym, $con_sym,$effect_in,$effect_out,$showpost=fa
 	echo "jQuery('.jaw_months').{$effect_out}('fast');\n\t\t\t";
 	echo "jQuery('.jaw_symbol').html('{$ex_sym}');\n\t\t\t";
 	echo "if(jQuery(this).parent().find('.jaw_months').is(':hidden')){\n\t\t\t\t";
-	echo "jQuery(this).parent().find('.jaw_symbol').html('{$effect_in}');\n\t\t\t\t";
+	echo "jQuery(this).parent().find('.jaw_symbol').html('{$con_sym}');\n\t\t\t\t";
     echo "jQuery(this).parent().find('.jaw_months').{$effect_in}('fast');\n\t\t\t\t";
 	echo "}\n\t\t\telse{\n\t\t\t\t";
   	echo "jQuery(this).parent().find('.jaw_months').{$effect_out}('fast');\n\t\t\t";
