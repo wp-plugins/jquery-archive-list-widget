@@ -15,7 +15,7 @@ This plugin provides a widget and a filter to display a collapsible archive list
 == Installation ==
 
 1. Make a directory `jquery-archive-list-widget` under `/wp-content/plugins/`
-1. Upload `jquery-archive-list-widget.php` to the `/wp-content/plugins/jquery-archive-list-widget/` directory
+1. Upload  all downloaded files to `/wp-content/plugins/jquery-archive-list-widget/`
 1. Activate the plugin through the 'Plugins' menu in WordPress
 1. Use your 'Presentation'/'Sidebar Widgets' settings to drag and configure, if you want to display it inside a post then write [jQuery Archive List] and save.
 
