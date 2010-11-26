@@ -4,7 +4,7 @@ Donate link: http://skatox.com/blog/2009/12/26/jquery-archive-list-widget/
 Tags: jquery, ajax, javacript, collapse, collapsible, archive, collapsible archive, widget
 Requires at least: 2.8
 Tested up to: 3.0.1
-Stable tag: 1.0.0
+Stable tag: 1.0
 
 A simple jQuery widget (can be called from posts) for displaying an archive list with some effects.
 
