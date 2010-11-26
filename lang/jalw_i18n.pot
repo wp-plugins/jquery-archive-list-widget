@@ -1,0 +1,70 @@
+# PLEASE TRY TO TRANSLATE THIS PLUGIN TO OTHER LANGUAGES, ANY HELP IS WELCOMED.
+# Copyright (C) 2010
+# This file is distributed under the same license as the PACKAGE package.
+# Miguel Useche <migueluseche@skatox.com>, 2010.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-11-26 10:56-0430\n"
+"PO-Revision-Date: 2010-11-26 10:56-0430\n"
+"Last-Translator: Miguel Useche <migueluseche@skatox.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language:\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: jquery-archive-list-widget.php:236
+msgid "Title"
+msgstr ""
+
+#: jquery-archive-list-widget.php:240
+msgid "Trigger Symbol"
+msgstr ""
+
+#: jquery-archive-list-widget.php:243
+msgid "Empty Space"
+msgstr ""
+
+#: jquery-archive-list-widget.php:249
+msgid "Effect"
+msgstr ""
+
+#: jquery-archive-list-widget.php:252
+msgid "Slide (Accordion)"
+msgstr ""
+
+#: jquery-archive-list-widget.php:253
+msgid "Fade"
+msgstr ""
+
+#: jquery-archive-list-widget.php:256
+msgid "Month Format"
+msgstr ""
+
+#: jquery-archive-list-widget.php:259
+msgid "Full Name (January)"
+msgstr ""
+
+#: jquery-archive-list-widget.php:260
+msgid "Short Name (Jan)"
+msgstr ""
+
+#: jquery-archive-list-widget.php:261
+msgid "Number (01)"
+msgstr ""
+
+#: jquery-archive-list-widget.php:265
+msgid "Extra options"
+msgstr ""
+
+#: jquery-archive-list-widget.php:268
+msgid "Show number of posts"
+msgstr ""
+
+#: jquery-archive-list-widget.php:272
+msgid "Show posts under months"
+msgstr ""
