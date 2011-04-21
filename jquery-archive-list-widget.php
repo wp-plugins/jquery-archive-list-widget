@@ -4,10 +4,10 @@
  Plugin URI: http://skatox.com/blog/2009/12/26/jquery-archive-list-widget/
  Description: A simple jQuery widget for displaying an archive list with some effects (inspired by Collapsible Archive Widget)
  Author: Miguel Useche
- Version: 1.0.0
+ Version: 1.1.0
  Author URI: http://skatox.com/
 
-    Copyright 2009-2010  Miguel Useche  (email : migueluseche@skatox.com)
+    Copyleft 2009-2011  Miguel Useche  (email : migueluseche@skatox.com)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -80,36 +80,48 @@ function aux_load_options(){
 }
 
 function aux_get_years(){
-	global $wpdb;
-	
-	$sql = "SELECT DISTINCT YEAR(post_date) AS `year`, count(ID) as posts ";
-	$sql .="FROM {$wpdb->posts} WHERE {$wpdb->posts}.post_status = 'publish' AND {$wpdb->posts}.post_type = 'post' ";
-	$sql .="GROUP BY YEAR(post_date) ORDER BY post_date DESC";
+	 global $wpdb;
 
-	return $wpdb->get_results($sql);
+     //Filters supplied by Ramiro García <ramiro(at)inbytes.com>
+    $where = apply_filters('getarchives_where', "WHERE post_type = 'post' AND post_status = 'publish'");
+    $join = apply_filters('getarchives_join', "");
+
+
+    $sql = "SELECT DISTINCT YEAR(post_date) AS `year`, count(ID) as posts ";
+    $sql .="FROM {$wpdb->posts} {$join} {$where} ";
+    $sql .="GROUP BY YEAR(post_date) ORDER BY post_date DESC";
+
+    return $wpdb->get_results($sql);
 }
 
 function aux_get_months($year){
 	global $wpdb;
 
-	$sql = "SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts ";
-	$sql.= "FROM {$wpdb->posts} WHERE {$wpdb->posts}.post_status = 'publish' AND {$wpdb->posts}.post_type = 'post' AND YEAR(post_date) = {$year} ";
-	$sql.= "GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC";
+    //Filters supplied by Ramiro García <ramiro(at)inbytes.com>
+    $where = apply_filters('getarchives_where', "WHERE post_type = 'post' AND post_status = 'publish' AND YEAR(post_date) = {$year}");
+    $join = apply_filters('getarchives_join', "");
 
-	return $wpdb->get_results($sql);
+    $sql = "SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts ";
+    $sql .="FROM {$wpdb->posts} {$join} {$where} ";
+    $sql.= "GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC";
+
+    return $wpdb->get_results($sql);
 }
 
 function aux_get_posts($year,$month){
-	global $wpdb;
+    global $wpdb;
 
-	if (empty($year) || empty($month))
-		return null;
+    if (empty($year) || empty($month))
+        return null;
 
-   	$sql = "SELECT ID, post_title, post_name FROM {$wpdb->posts} ";
-	$sql .="WHERE {$wpdb->posts}.post_status = 'publish' AND {$wpdb->posts}.post_type = 'post' ";
-	$sql .="AND YEAR(post_date) = {$year} AND MONTH(post_date)={$month} ORDER BY post_date DESC";
-	
-	return $wpdb->get_results($sql);
+     //Filters supplied by Ramiro García <ramiro(at)inbytes.com>
+    $where = apply_filters('getarchives_where', "WHERE post_type = 'post' AND post_status = 'publish' AND YEAR(post_date) = {$year} AND MONTH(post_date) = {$month}");
+    $join = apply_filters('getarchives_join', "");
+
+    $sql = "SELECT ID, post_title, post_name FROM {$wpdb->posts} ";
+    $sql .="$join $where ORDER BY post_date DESC";
+
+    return $wpdb->get_results($sql);
 }
 
 /**
@@ -304,9 +316,19 @@ function widget_display_jQuery_archives_init(){
 	}
 	
 	//register this plugin
-	register_sidebar_widget('jQuery Archive List Widget', 'widget_display_jQuery_archives');
-	register_widget_control('jQuery Archive List Widget','widget_display_jQuery_archives_control');
+	wp_register_sidebar_widget(
+        'jquery-archive-list-widget',
+        'jQuery Archive List',
+        'widget_display_jQuery_archives',
+        array('description' => 'A simple jQuery widget for displaying an archive list with some effects.'
+    ));
+	wp_register_widget_control('jquery-archive-list-widget', 'jQuery Archive List','widget_display_jQuery_archives_control');
 }
 
 add_action('init','widget_display_jQuery_archives_init');
 add_filter('the_content', 'widget_filter_jquery_archives');
+
+//filters on widgets (thanks to Ramiro García <ramiro(at)inbytes.com>)
+add_action('widget_text', 'widget_filter_jquery_archives');
+
+

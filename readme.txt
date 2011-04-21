@@ -3,8 +3,8 @@ Contributors: Miguel Useche
 Donate link: http://skatox.com/blog/2009/12/26/jquery-archive-list-widget/
 Tags: jquery, ajax, javacript, collapse, collapsible, archive, collapsible archive, widget
 Requires at least: 2.8
-Tested up to: 3.0.1
-Stable tag: 1.0
+Tested up to: 3.1.1
+Stable tag: 1.1
 
 A simple jQuery widget (can be called from posts) for displaying an archive list with some effects.
 
@@ -50,13 +50,24 @@ the archive list when rendering the content.
 By using it, recommending it to other users, giving it 5 starts at this plugin's wordpress page, suggesting features
 or coding new features and finally by DONATING using this plugin's website donate link.
 
+= How can i add multiples instances? =
+
+Since 1.1 there's a trick to do it, just add a new Text widget only with  [jQuery Archive List] as content (without quotes) then
+when looking the site it will have a new copy of the widget. Due to plugin architecture, there's no way to have
+a single configuration for each instance (but you can edit source code and register and copy  widget functions to implement this).
+
 == Change Log ==
+
+= 1.1 =
+* Added support for multiples instances (by writing [jQuery Archive List] on any Text widget)
+* Added support for Wordpress' reading filters, like reading permissions using Role Scoper plugin (thanks to Ramiro García for the patch)
+* Improved compatibility with Wordpress 3.x
 
 = 1.0 =
 * Added support for month's format
 * Now the jquery archive list can be printed from a post, just write [jQuery Archive List] anywhere inside the post.
 * Added support for i18n, so you can translate widget configuration's text to your language.
-* Separed JS code from HTML code, so browsers should cache JS content for faster processing. 
+* Separed JS code from HTML code, so browsers should cache JS content for faster processing.
 * Automatic loading of jQuery JS library.
 * Almost all code were rewritten for better maintainer and easy way to add new features.
 * Improved code to be more Wordpress compatible.
