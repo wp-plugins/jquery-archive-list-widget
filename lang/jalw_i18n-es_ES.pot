@@ -1,15 +1,14 @@
 # PLEASE TRY TO TRANSLATE THIS PLUGIN TO OTHER LANGUAGES, ANY HELP IS WELCOMED.
-# Copyright (C) 2010
+# Copyright (C) 2011
 # This file is distributed under the same license as the PACKAGE package.
-# Miguel Useche <migueluseche@skatox.com>, 2010.
+# Miguel Useche <migueluseche@skatox.com>, 2011.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: 1.0\n"
+"Project-Id-Version: jQuery Archive List Widget 1.1.0\n"
 "Report-Msgid-Bugs-To: Miguel Useche <migueluseche@skatox.com>\n"
-"POT-Creation-Date: 2010-11-26 10:56-0430\n"
-"PO-Revision-Date: 2010-11-26 10:56-0430\n"
+"POT-Creation-Date: 2011-04-21 10:56-0430\n"
+"PO-Revision-Date:  2011-04-21 10:56-0430\n"
 "Last-Translator: Miguel Useche <migueluseche@skatox.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language:\n"
@@ -17,54 +16,75 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: jquery-archive-list-widget.php:236
+#: jquery-archive-list-widget.php:248
 msgid "Title"
 msgstr "T&iacute;tulo"
 
-#: jquery-archive-list-widget.php:240
+#: jquery-archive-list-widget.php:252
 msgid "Trigger Symbol"
 msgstr "S&iacute;mbolo"
 
-#: jquery-archive-list-widget.php:243
+#: jquery-archive-list-widget.php:255
 msgid "Empty Space"
 msgstr "Espacio vac&iacute;o"
 
-#: jquery-archive-list-widget.php:249
+#: jquery-archive-list-widget.php:261
 msgid "Effect"
 msgstr "Efecto"
 
-#: jquery-archive-list-widget.php:252
+#: jquery-archive-list-widget.php:264
 msgid "Slide (Accordion)"
 msgstr "Deslizamiento (Acorde&oacute;n)"
 
-#: jquery-archive-list-widget.php:253
+#: jquery-archive-list-widget.php:265
 msgid "Fade"
 msgstr "Desvanecer"
 
-#: jquery-archive-list-widget.php:256
+#: jquery-archive-list-widget.php:268
 msgid "Month Format"
 msgstr "Formato del Mes"
 
-#: jquery-archive-list-widget.php:259
+#: jquery-archive-list-widget.php:271
 msgid "Full Name (January)"
 msgstr "Nombre completo (Enero)"
 
-#: jquery-archive-list-widget.php:260
+#: jquery-archive-list-widget.php:272
 msgid "Short Name (Jan)"
 msgstr "Nombre corto (Ene)"
 
-#: jquery-archive-list-widget.php:261
+#: jquery-archive-list-widget.php:273
 msgid "Number (01)"
 msgstr "N&uacute;mero (01)"
 
-#: jquery-archive-list-widget.php:265
+#: jquery-archive-list-widget.php:277
 msgid "Extra options"
 msgstr "Opciones adicionales"
 
-#: jquery-archive-list-widget.php:268
+#: jquery-archive-list-widget.php:284
 msgid "Show number of posts"
 msgstr "Mostrar n&uacute;mero de entradas"
 
 #: jquery-archive-list-widget.php:272
 msgid "Show posts under months"
 msgstr "Mostrar entradas debajo del mes"
+
+
+#. Plugin URI of the plugin/theme
+msgid "http://skatox.com/blog/2009/12/26/jquery-archive-list-widget/"
+msgstr "http://skatox.com/blog/2009/12/26/jquery-archive-list-widget/"
+
+#. Description of the plugin/theme
+msgid ""
+"A simple jQuery widget for displaying an archive list with some effects "
+"(inspired by Collapsible Archive Widget)"
+msgstr ""
+"Un simple widget hecho con jQuery para mostrar los archivos en una lista "
+" contra&iacute;da con efectos"
+
+#. Author of the plugin/theme
+msgid "Miguel Useche"
+msgstr "Miguel Useche"
+
+#. Author URI of the plugin/theme
+msgid "http://skatox.com/"
+msgstr "http://skatox.com/"
