@@ -9,11 +9,11 @@
 function jquery_archive_list_animate(clicked_obj){
 	if(jQuery(clicked_obj).parent().children('ul').children('li').is(':hidden')){
 		jQuery(clicked_obj).parent().children('ul').children('li').<?php echo $fx_in ?>();
-		jQuery(clicked_obj).parent().children('a').children('.jaw_symbol').html('<?php echo $con_sym ?>&nbsp;');
+		jQuery(clicked_obj).parent().children('a').children('.jaw_symbol').html('<?php echo $con_sym ?>');
 	}
 	else
 	{
-		jQuery(clicked_obj).parent().children('a').children('.jaw_symbol').html('<?php echo $ex_sym ?>&nbsp;');
+		jQuery(clicked_obj).parent().children('a').children('.jaw_symbol').html('<?php echo $ex_sym ?>');
 		jQuery(clicked_obj).parent().children('ul').children('li').<?php echo $fx_out ?>();
 	}
 	jQuery(clicked_obj).parent().toggleClass('expanded');

@@ -149,7 +149,7 @@ function aux_build_html_code($jal_options) {
 	//Prints Years
 	for ($i=0;$x<count($years[$i]);$i++){
 		$html.= "\n<li class=\"jaw_years\"><a class=\"jaw_years\" href=\"#jal\">";
-		$html.= '<span class="jaw_symbol">'.htmlspecialchars($jal_options['ex_sym'])."</span>&nbsp;{$years[$i]->year}";
+		$html.= '<span class="jaw_symbol">'.htmlspecialchars($jal_options['ex_sym'])."</span> {$years[$i]->year}";
 	
 		//Prints number of post_date	
 		if($jal_options['showcount']=='true') 
@@ -169,7 +169,7 @@ function aux_build_html_code($jal_options) {
 			$html.= "\n\t<li class=\"jaw_months\" style=\"display:none;\"><a class=\"jaw_months\" href=\"{$month_url}\">";
 			
 			if($jal_options['showpost'])
-				$html.= '<span class="jaw_symbol">'.htmlspecialchars($jal_options['ex_sym']).'&nbsp;</span>';
+				$html.= '<span class="jaw_symbol">'.htmlspecialchars($jal_options['ex_sym']).'</span> ';
 			
 			//Prints month according to selected format
 			switch($jal_options['month_format']) {
