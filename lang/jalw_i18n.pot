@@ -16,6 +16,10 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+#: jquery-archive-list-widget.php:41
+msgid "Default Title"
+msgstr "Archives"
+
 #: jquery-archive-list-widget.php:248
 msgid "Title"
 msgstr ""

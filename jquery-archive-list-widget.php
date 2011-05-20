@@ -38,7 +38,7 @@ function aux_load_options(){
 	$jal_options['showpost'] = 0;
 	$jal_options['showcount'] = $options['showcount'];
 	$jal_options['month_format'] = $options['month_format'];
-	$jal_options['title'] = $options['title'];
+	$jal_options['title'] = empty($options['title'])? __('Default Title','jalw_i18n'): $options['title'];
 	
 	if($options['showpost']=='true')
 		$jal_options['showpost']= 1;	
@@ -312,7 +312,7 @@ function widget_display_jQuery_archives_init(){
 	//Includes dynamic js script and loads jquery if it is not loaded
 	if (function_exists("wp_enqueue_script") && !is_admin()) {
 		$js_url = aux_build_js_url();
-		wp_enqueue_script('jquery_archive_list', get_option("siteurl") . JAL_DIR . $js_url, array('jquery'));
+		wp_enqueue_script('jquery_archive_list', get_option("siteurl") . JAL_DIR . $js_url, array('jquery'),false,true);
 	}
 	
 	//register this plugin
