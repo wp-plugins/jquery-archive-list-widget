@@ -8,13 +8,16 @@ msgstr ""
 "Project-Id-Version: jQuery Archive List Widget 1.1.0\n"
 "Report-Msgid-Bugs-To: Miguel Useche <migueluseche@skatox.com>\n"
 "POT-Creation-Date: 2011-04-21 10:56-0430\n"
-"PO-Revision-Date:  2011-04-21 10:56-0430\n"
-"Last-Translator: Miguel Useche <migueluseche@skatox.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language:\n"
+"PO-Revision-Date: 2011-05-20 14:38-0430\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Spanish\n"
+"X-Poedit-KeywordsList: _e;__\n"
+"X-Poedit-Basepath: ../\n"
 
 #: jquery-archive-list-widget.php:41
 msgid "Default Title"
@@ -72,18 +75,13 @@ msgstr "Mostrar n&uacute;mero de entradas"
 msgid "Show posts under months"
 msgstr "Mostrar entradas debajo del mes"
 
-
 #. Plugin URI of the plugin/theme
 msgid "http://skatox.com/blog/2009/12/26/jquery-archive-list-widget/"
 msgstr "http://skatox.com/blog/2009/12/26/jquery-archive-list-widget/"
 
 #. Description of the plugin/theme
-msgid ""
-"A simple jQuery widget for displaying an archive list with some effects "
-"(inspired by Collapsible Archive Widget)"
-msgstr ""
-"Un simple widget hecho con jQuery para mostrar los archivos en una lista "
-" contra&iacute;da con efectos"
+msgid "A simple jQuery widget for displaying an archive list with some effects (inspired by Collapsible Archive Widget)"
+msgstr "Un simple widget hecho con jQuery para mostrar los archivos en una lista  contra&iacute;da con efectos"
 
 #. Author of the plugin/theme
 msgid "Miguel Useche"
@@ -92,3 +90,4 @@ msgstr "Miguel Useche"
 #. Author URI of the plugin/theme
 msgid "http://skatox.com/"
 msgstr "http://skatox.com/"
+
