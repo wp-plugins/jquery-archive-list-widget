@@ -70,6 +70,11 @@ a single configuration for each instance (but you can edit source code and regis
 
 == Change Log ==
 
+= 1.1.2 =
+* Changed plugin's JS file loading to the footer, so it doesn't affect your site's loading speed.
+* Added default value for widget's title. And it is included in translation files, so this can be used in multi-language sites.
+* Plugin translated to Czech (CZ) thanks to Tomas Valenta.
+
 = 1.1.1 =
 * Removed &nbsp; characters, all spacing should be done by CSS.
 
