@@ -74,6 +74,10 @@ msgstr "Zobrazit počet příspěvků"
 msgid "Show posts under months"
 msgstr "Zobrazit počet příspěvků u měsíců"
 
+#: jquery-archive-list-widget.php:336
+msgid "Initially expand current year"
+msgstr "Zpočátku Rozbalit roku"
+
 #. Plugin Name of the plugin/theme
 msgid "jQuery Archive List Widget"
 msgstr "jQuery Archivní seznam"
