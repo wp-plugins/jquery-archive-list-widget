@@ -4,7 +4,7 @@
   Plugin URI: http://skatox.com/blog/jquery-archive-list-widget/
   Description: A simple jQuery widget for displaying an archive list with some effects (inspired by Collapsible Archive Widget)
   Author: Miguel Useche
-  Version: 1.2.0
+  Version: 1.2
   Author URI: http://skatox.com/
 
   Copyleft 2009-2011  Miguel Useche  (email : migueluseche@skatox.com)
