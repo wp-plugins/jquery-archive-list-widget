@@ -4,7 +4,7 @@
   Plugin URI: http://skatox.com/blog/jquery-archive-list-widget/
   Description: A simple jQuery widget for displaying an archive list with some effects (inspired by Collapsible Archive Widget)
   Author: Miguel Useche
-  Version: 1.2
+  Version: 1.2.1
   Author URI: http://skatox.com/
 
   Copyleft 2009-2011  Miguel Useche  (email : migueluseche@skatox.com)
@@ -144,7 +144,7 @@ function aux_build_html_code($jal_options) {
     $html = '<ul>';
 
     $is_home = is_front_page() || is_home() || is_search(); //Places where plugin should not show current year
-    $post_id = (!$home) ? get_the_ID() : -1;
+    $post_id = (!$is_home) ? get_the_ID() : -1;
     if ($post_id >= 0) {
         $post_data = get_post($post_id);
         $post_year = 1 * substr($post_data->post_date_gmt, 0, 4);
@@ -156,11 +156,13 @@ function aux_build_html_code($jal_options) {
     //Prints Years
     for ($i = 0; $x < count($years[$i]); $i++) {
         $this_year = $jal_options['expandcurrent'] && $years[$i]->year == $post_year;
+        $year_link = get_year_link($years[$i]->year);
+        
         if ($this_year) {
-            $html.= "\n<li class=\"jaw_years expanded\"><a class=\"jaw_years\" href=\"#jal\">";
+            $html.= "\n<li class=\"jaw_years expanded\"><a class=\"jaw_years\" href=\"{$year_link}\">";
             $html.= '<span class="jaw_symbol">'. htmlspecialchars($jal_options['con_sym']) . "</span> {$years[$i]->year}";
         } else {
-            $html.= "\n<li class=\"jaw_years\"><a class=\"jaw_years\" href=\"#jal\">";
+            $html.= "\n<li class=\"jaw_years\"><a class=\"jaw_years\" href=\"{$year_link}\">";
             $html.= '<span class="jaw_symbol">'. htmlspecialchars($jal_options['ex_sym']) . "</span> {$years[$i]->year}";
         }
 
@@ -174,8 +176,7 @@ function aux_build_html_code($jal_options) {
         $months = aux_get_months($years[$i]->year);
 
         foreach ($months as $month) {
-            
-            $month_url = ($jal_options['showpost']) ? '#jal' : get_month_link($years[$i]->year, $month->month);
+            $month_url = get_month_link($years[$i]->year, $month->month);
             
             $style = ($jal_options['expandcurrent'] && $this_year)? 'list-item' : 'none';
             $html.= "\n\t<li class=\"jaw_months\" style=\"display:{$style};\">";

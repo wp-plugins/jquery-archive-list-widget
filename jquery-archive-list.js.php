@@ -22,11 +22,13 @@ function jquery_archive_list_animate(clicked_obj){
 jQuery(document).ready(function() {
 	jQuery('li.jaw_years a.jaw_years').bind('click', function(){
 		jquery_archive_list_animate(this);
+                return false;
 	});
 
 	if(<?php echo $showpost ?>){
 		jQuery('li.jaw_months a.jaw_months').bind('click', function(){
 			jquery_archive_list_animate(this);
+                        return false;
 		});
 	}
 });
