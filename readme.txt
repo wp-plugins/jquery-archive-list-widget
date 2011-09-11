@@ -80,7 +80,7 @@ a single configuration for each instance (but you can edit source code and regis
 == Change Log ==
 
 = 1.2.1 =
-* Improved generated HTML code to be more compatible when JS is off, also helps to search engines to navigate trough archives pages.
+* Improved generated HTML code to be more compatible when JS is off, also helps to search engines to navigate through archives pages.
 * Fixed a bug where in some cases a wrong year expanded at home page.
 * Added Slovak translation
 
