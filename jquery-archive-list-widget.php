@@ -4,7 +4,7 @@
   Plugin URI: http://skatox.com/blog/jquery-archive-list-widget/
   Description: A simple jQuery widget for displaying an archive list with some effects (inspired by Collapsible Archive Widget)
   Author: Miguel Useche
-  Version: 1.2.1
+  Version: 1.2.2
   Author URI: http://skatox.com/
 
   Copyleft 2009-2011  Miguel Useche  (email : migueluseche@skatox.com)
@@ -25,7 +25,9 @@
  */
 
 $jal_dir = preg_replace("/^.*[\/\\\]/", "", dirname(__FILE__));
-define("JAL_DIR", "/wp-content/plugins/" . $jal_dir);
+define("JAL_URL", "/wp-content/plugins/" . $jal_dir . "/");
+define("JAL_DIR", WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $jal_dir . DIRECTORY_SEPARATOR );
+define("JAL_JS_FILENAME", "jal.js");
 
 /**
  * Loads plugin's options, interprets it for internal use
@@ -122,19 +124,6 @@ function aux_get_posts($year, $month) {
 }
 
 /**
- * Builds Javascript's source url with custom parameters to generate dynamic js code
- */
-function aux_build_js_url() {
-    $options = aux_load_options();
-
-    $url = '/jquery-archive-list.js.php';
-    $url.= '?ex_sym=' . rawurlencode($options['ex_sym']) . '&con_sym=' . rawurlencode($options['con_sym']);
-    $url.= '&fx_out=' . $options['fx_out'] . '&fx_in=' . $options['fx_in'] . '&showpost=' . $options['showpost'];
-
-    return $url;
-}
-
-/**
  * Builds archive list's HTML code
  */
 function aux_build_html_code($jal_options) {
@@ -143,7 +132,7 @@ function aux_build_html_code($jal_options) {
     $years = aux_get_years();
     $html = '<ul>';
 
-    $is_home = is_front_page() || is_home() || is_search(); //Places where plugin should not show current year
+    $is_home = is_front_page() || is_home() || is_search() || is_page(); //Places where plugin should not show current year
     $post_id = (!$is_home) ? get_the_ID() : -1;
     if ($post_id >= 0) {
         $post_data = get_post($post_id);
@@ -230,6 +219,47 @@ function aux_build_html_code($jal_options) {
     return $html;
 }
 
+    /**
+     * Function to generate JS file
+     */
+    function aux_build_js_file(){
+    
+        $options = aux_load_options();
+        $file = JAL_DIR . JAL_JS_FILENAME;
+        
+        $script = 
+            "function jquery_archive_list_animate(clicked_obj){
+                if(jQuery(clicked_obj).parent().children('ul').children('li').is(':hidden')){
+                    jQuery(clicked_obj).parent().children('ul').children('li').{$options['fx_in']}();
+                    jQuery(clicked_obj).parent().children('a').children('.jaw_symbol').html('{$options['con_sym']}');
+                }
+                else
+                {
+                    jQuery(clicked_obj).parent().children('a').children('.jaw_symbol').html('{$options['ex_sym']}');
+                    jQuery(clicked_obj).parent().children('ul').children('li').{$options['fx_out']}();
+                }
+                jQuery(clicked_obj).parent().toggleClass('expanded');
+            }
+
+            jQuery(document).ready(function() {
+                jQuery('li.jaw_years a.jaw_years').bind('click', function(){
+                    jquery_archive_list_animate(this);
+                            return false;
+                });
+            ";
+            
+            
+        if($options['showpost'])
+            $script .= " jQuery('li.jaw_months a.jaw_months').bind('click', function(){
+                    jquery_archive_list_animate(this);
+                                return false;
+                });";
+        
+        $script .= "});";
+        
+        return file_put_contents($file, $script);
+    }
+
 /**
  * Function wich filters any [jQuery Archive List] text inside post to display archive list
  */
@@ -258,6 +288,9 @@ function widget_display_jquery_archives_control() {
 
         //Update options in the Wordpress database
         update_option('jquery_archive_list_widget', $options);
+        
+        //Creates js file
+        aux_build_js_file();
     }
     ?>
 
@@ -320,7 +353,7 @@ function widget_display_jQuery_archives($args) {
 
     echo $before_widget;
     echo $before_title;
-    echo $jal_options['title'];
+    echo $jal_options['title']; 
     echo $after_title;
     echo aux_build_html_code($jal_options);
     echo $after_widget;
@@ -333,8 +366,11 @@ function widget_display_jQuery_archives_init() {
 
     //Includes dynamic js script and loads jquery if it is not loaded
     if (function_exists("wp_enqueue_script") && !is_admin()) {
-        $js_url = aux_build_js_url();
-        wp_enqueue_script('jquery_archive_list', get_option("siteurl") . JAL_DIR . $js_url, array('jquery'), false, true);
+        
+        if(!file_exists(JAL_DIR . JAL_JS_FILENAME))
+            aux_build_js_file();
+        
+        wp_enqueue_script('jquery_archive_list', get_option("siteurl") . JAL_URL . JAL_JS_FILENAME , array('jquery'), false, true);
     }
 
     //register this plugin
