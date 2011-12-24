@@ -5,7 +5,7 @@
   Description: A simple jQuery widget for displaying an archive list with some effects (inspired by Collapsible Archive Widget)
   Author: Miguel Useche
   Version: 1.2.2
-  Author URI: http://skatox.com/
+  Author URI: http://skatox.com/ 
 
   Copyleft 2009-2011  Miguel Useche  (email : migueluseche@skatox.com)
 
