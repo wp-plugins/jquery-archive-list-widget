@@ -29,6 +29,9 @@ define("JAL_URL", "/wp-content/plugins/" . $jal_dir . "/");
 define("JAL_DIR", WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $jal_dir . DIRECTORY_SEPARATOR );
 define("JAL_JS_FILENAME", "jal.js");
 
+//Loads plugin's language file
+load_plugin_textdomain('jalw_i18n', false, basename( dirname( __FILE__ ) ) . '/lang' );
+
 /**
  * Loads plugin's options, interprets it for internal use
  * @return array of custom options
