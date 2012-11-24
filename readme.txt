@@ -17,8 +17,9 @@ This plugin provides a widget and a filter to display a collapsible archive list
  2. Uses jQuery to add effects and to be compatible with most browsers.
  3. Select your expand/collapse symbol and date format.
  4. Support for archive filters.
- 6. Auto expands current/select year from posts.
- 5. And more to come...
+ 5. Auto expands current/select year from posts.
+ 6. Select the categories to exclude
+ 7. And more to come...
 
 == Installation ==
 
