@@ -4,10 +4,10 @@
   Plugin URI: http://skatox.com/blog/jquery-archive-list-widget/
   Description: A simple jQuery widget for displaying an archive list with some effects (inspired by Collapsible Archive Widget)
   Author: Miguel Useche
-  Version: 1.2.3
+  Version: 1.3
   Author URI: http://skatox.com/
 
-  Copyleft 2009-2011  Miguel Useche  (email : migueluseche@skatox.com)
+  Copyleft 2009-2012  Miguel Useche  (email : migueluseche@skatox.com)
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -45,6 +45,20 @@ function aux_load_options() {
     $jal_options['showcount'] = $options['showcount'];
     $jal_options['month_format'] = $options['month_format'];
     $jal_options['title'] = empty($options['title']) ? __('Default Title', 'jalw_i18n') : $options['title'];
+    $options['excluded'] = empty($options['exclude']) ? null : unserialize($options['excluded']);
+
+    //Exclude feature was developed by Michael Westergaard <michael@westergaard.eu>
+    $first = true;
+    $excluded = '(';
+    if (is_array($options['excluded'])) {
+	    foreach ($options['excluded'] as $category) {
+		    if (!$first) $excluded .= ', ';
+		    $first = false;
+		    $excluded .= (int) $category;
+	    }
+    }
+    $excluded .= ')';
+    $jal_options['excluded'] = $excluded;
 
     switch ($options['symbol']) {
         case '0':
@@ -82,12 +96,26 @@ function aux_load_options() {
     return $jal_options;
 }
 
-function aux_get_years() {
+function aux_get_years($jal_options) {
     global $wpdb;
 
     //Filters supplied by Ramiro García <ramiro(at)inbytes.com>
-    $where = apply_filters('getarchives_where', "WHERE post_type = 'post' AND post_status = 'publish'");
+    if ($jal_options['excluded'] == '()') {
+	    $where = apply_filters('getarchives_where', "WHERE 
+		        post_type = 'post'
+		    AND post_status = 'publish'");
     $join = apply_filters('getarchives_join', "");
+    } else {
+	    $where = apply_filters('getarchives_where', "WHERE 
+		        post_type = 'post'
+		    AND post_status = 'publish'
+		    AND {$wpdb->term_taxonomy}.term_id NOT IN {$jal_options['excluded']}
+		    AND {$wpdb->term_taxonomy}.taxonomy = 'category'");
+	    $join = apply_filters('getarchives_join', "
+		    LEFT JOIN {$wpdb->term_relationships} ON({$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id)  
+		    LEFT JOIN {$wpdb->term_taxonomy} ON({$wpdb->term_relationships}.term_taxonomy_id = {$wpdb->term_taxonomy}.term_taxonomy_id)
+		    ");
+    }
 
     $sql = "SELECT DISTINCT YEAR(post_date) AS `year`, count(ID) as posts ";
     $sql .="FROM {$wpdb->posts} {$join} {$where} ";
@@ -96,12 +124,30 @@ function aux_get_years() {
     return $wpdb->get_results($sql);
 }
 
-function aux_get_months($year) {
+function aux_get_months($jal_options, $year) {
     global $wpdb;
 
     //Filters supplied by Ramiro García <ramiro(at)inbytes.com>
-    $where = apply_filters('getarchives_where', "WHERE post_type = 'post' AND post_status = 'publish' AND YEAR(post_date) = {$year}");
+    if ($jal_options['excluded'] == '()') {
+	    $where = apply_filters('getarchives_where', "WHERE 
+		        post_type = 'post'
+		    AND post_status = 'publish'
+		    AND post_date >= (STR_TO_DATE(CONCAT_WS('-', {$year}, 1, 1), '%Y-%m-%d'))
+		    AND post_date < (DATE_ADD(STR_TO_DATE(CONCAT_WS('-', {$year}, 1, 1), '%Y-%m-%d'), INTERVAL 1 YEAR))");
     $join = apply_filters('getarchives_join', "");
+    } else {
+	    $where = apply_filters('getarchives_where', "WHERE 
+		        post_type = 'post'
+		    AND post_status = 'publish'
+		    AND post_date >= (STR_TO_DATE(CONCAT_WS('-', {$year}, 1, 1), '%Y-%m-%d'))
+		    AND post_date < (DATE_ADD(STR_TO_DATE(CONCAT_WS('-', {$year}, 1, 1), '%Y-%m-%d'), INTERVAL 1 YEAR))
+		    AND {$wpdb->term_taxonomy}.term_id NOT IN {$jal_options['excluded']}
+		    AND {$wpdb->term_taxonomy}.taxonomy = 'category'");
+	    $join = apply_filters('getarchives_join', "
+		    LEFT JOIN {$wpdb->term_relationships} ON({$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id)  
+		    LEFT JOIN {$wpdb->term_taxonomy} ON({$wpdb->term_relationships}.term_taxonomy_id = {$wpdb->term_taxonomy}.term_taxonomy_id)
+		    ");
+    }
 
     $sql = "SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts ";
     $sql .="FROM {$wpdb->posts} {$join} {$where} ";
@@ -110,15 +156,33 @@ function aux_get_months($year) {
     return $wpdb->get_results($sql);
 }
 
-function aux_get_posts($year, $month) {
+function aux_get_posts($jal_options, $year, $month) {
     global $wpdb;
 
     if (empty($year) || empty($month))
         return null;
 
     //Filters supplied by Ramiro García <ramiro(at)inbytes.com>
-    $where = apply_filters('getarchives_where', "WHERE post_type = 'post' AND post_status = 'publish' AND YEAR(post_date) = {$year} AND MONTH(post_date) = {$month}");
+    if ($jal_options['excluded'] == '()') {
+	    $where = apply_filters('getarchives_where', "WHERE 
+		        post_type = 'post'
+		    AND post_status = 'publish'
+		    AND post_date >= (STR_TO_DATE(CONCAT_WS('-', {$year}, {$month}, 1), '%Y-%m-%d'))
+		    AND post_date < (DATE_ADD(STR_TO_DATE(CONCAT_WS('-', {$year}, {$month}, 1), '%Y-%m-%d'), INTERVAL 1 MONTH))");
     $join = apply_filters('getarchives_join', "");
+    } else {
+	    $where = apply_filters('getarchives_where', "WHERE 
+		        post_type = 'post'
+		    AND post_status = 'publish'
+		    AND post_date >= (STR_TO_DATE(CONCAT_WS('-', {$year}, {$month}, 1), '%Y-%m-%d'))
+		    AND post_date < (DATE_ADD(STR_TO_DATE(CONCAT_WS('-', {$year}, {$month}, 1), '%Y-%m-%d'), INTERVAL 1 MONTH))
+		    AND {$wpdb->term_taxonomy}.term_id NOT IN {$jal_options['excluded']}
+		    AND {$wpdb->term_taxonomy}.taxonomy = 'category'");
+	    $join = apply_filters('getarchives_join', "
+		    LEFT JOIN {$wpdb->term_relationships} ON({$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id)  
+		    LEFT JOIN {$wpdb->term_taxonomy} ON({$wpdb->term_relationships}.term_taxonomy_id = {$wpdb->term_taxonomy}.term_taxonomy_id)
+		    ");
+    }
 
     $sql = "SELECT ID, post_title, post_name FROM {$wpdb->posts} ";
     $sql .="$join $where ORDER BY post_date DESC";
@@ -132,7 +196,7 @@ function aux_get_posts($year, $month) {
 function aux_build_html_code($jal_options) {
     global $wp_locale;
     
-    $years = aux_get_years();
+    $years = aux_get_years($jal_options);
     $html = '<ul>';
 
     $is_home = is_front_page() || is_home() || is_search() || is_page(); //Places where plugin should not show current year
@@ -165,7 +229,7 @@ function aux_build_html_code($jal_options) {
         $html.= '</a><ul>';
 
         //Prints Months
-        $months = aux_get_months($years[$i]->year);
+        $months = aux_get_months($jal_options, $years[$i]->year);
 
         foreach ($months as $month) {
             $month_url = get_month_link($years[$i]->year, $month->month);
@@ -203,7 +267,7 @@ function aux_build_html_code($jal_options) {
 
             if ($jal_options['showpost']) {
                 $html.= '<ul>';
-                $posts = aux_get_posts($years[$i]->year, $month->month);
+                $posts = aux_get_posts($jal_options, $years[$i]->year, $month->month);
                 
                 foreach ($posts as $post) {
                     $style = ($this_month)? 'list-item' : 'none';
@@ -285,9 +349,10 @@ function widget_display_jquery_archives_control() {
         $options['title'] = stripslashes($_POST['jquery_archives_widget_title']);
         $options['effect'] = stripslashes($_POST['jquery_archives_widget_effect']);
         $options['month_format'] = stripslashes($_POST['jquery_archives_widget_format']);
-        $options['showpost'] = (isset($_POST['jquery_archives_widget_showpost']))? true : false;
-        $options['showcount'] = (isset($_POST['jquery_archives_widget_showcount']))? true : false;
-        $options['expandcurrent'] = (isset($_POST['jquery_archives_widget_expandcurrent']))? true : false;
+        $options['showpost'] = isset($_POST['jquery_archives_widget_showpost'])? true : false;
+        $options['showcount'] = isset($_POST['jquery_archives_widget_showcount'])? true : false;
+        $options['expandcurrent'] = isset($_POST['jquery_archives_widget_expandcurrent'])? true : false;
+        $options['excluded'] = isset ($_POST['jquery_archives_widget_excluded']) ? serialize($_POST['jquery_archives_widget_excluded']) : null;
 
         //Update options in the Wordpress database
         update_option('jquery_archive_list_widget', $options);
@@ -342,6 +407,25 @@ function widget_display_jquery_archives_control() {
             <input id="jquery_archives_widget_expandcurrent" name="jquery_archives_widget_expandcurrent" type="checkbox" <?php if($options['expandcurrent'] )  echo 'checked="checked"' ?> />
             <?php _e('Intially expand current year','jalw_i18n') ?>
         </dd>
+	  <dt><strong><?php _e('Exclude categories', 'jalw_i18n') ?></strong></dt>
+	  <dd>
+                <select id="jquery_archives_widget_excluded" name="jquery_archives_widget_excluded[]" style="height:100px;"  multiple="multiple">
+                      <?php
+                      $cats = get_categories( array( 'child_of' => 0, 'hide_empty' => 1, 'hierarchical' => 1, 'taxonomy' => 'category' ) );
+                      $options['excluded'] = empty($options['exclude']) ? null : unserialize($options['excluded']);
+                      
+                      foreach ($cats as $cat) {
+                          
+                          if(is_array($options['excluded']))
+                            $checked = (in_array($cat->term_id, $options['excluded'])) ? 'selected="selected"' : '';
+                          else
+                              $checked = '';
+                          
+                          echo "<option value=\"{$cat->term_id}\" {$checked}>{$cat->cat_name}</option>";
+                      }
+                      ?>
+                  </select>
+	  </dd>
     </dl> 
     <input type="hidden" name="jquery_archives_widget_submit" value="1" />
     <?php

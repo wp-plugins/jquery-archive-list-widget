@@ -78,6 +78,10 @@ msgstr "Zobraziť príspevky v mesiacoch"
 msgid "Initially expand current year"
 msgstr "Po načítaní stránky rozbaliť aktuálny rok"
 
+#: jquery-archive-list-widget.php:410
+msgid "Exclude categories"
+msgstr "Kategórie pre vylúčenie"
+
 #. Plugin Name of the plugin/theme
 msgid "jQuery Archive List Widget"
 msgstr "jQuery Archív"

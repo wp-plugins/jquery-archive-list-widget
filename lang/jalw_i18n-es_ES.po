@@ -79,6 +79,10 @@ msgstr "Mostrar entradas debajo del mes"
 msgid "Initially expand current year"
 msgstr "Expandir el año actual por defecto"
 
+#: jquery-archive-list-widget.php:410
+msgid "Exclude categories"
+msgstr "Categorías a excluir"
+
 #. Plugin URI of the plugin/theme
 msgid "http://skatox.com/blog/2009/12/26/jquery-archive-list-widget/"
 msgstr "http://skatox.com/blog/2009/12/26/jquery-archive-list-widget/"
