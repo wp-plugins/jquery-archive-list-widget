@@ -98,7 +98,7 @@ or minifying it (using other plugins)
 
 == Change Log ==
 
-= 1.3.1 =
+= 1.4 =
 * Updated i10n functions to Wordpress 3.5, no more deprecations warning should appear with i10n stuff.
 * Solved the i10n bug of not transating the exclude categories label.
 * Improved Javascript code (please save again the configuration to take effect)
