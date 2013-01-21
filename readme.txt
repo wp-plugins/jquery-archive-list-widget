@@ -4,7 +4,7 @@ Donate link: http://skatox.com/blog/jquery-archive-list-widget/
 Tags: jquery, ajax, javacript, collapse, collapsible, archive, collapsible archive, widget
 Requires at least: 2.8
 Tested up to: 3.5
-Stable tag: 1.3.1
+Stable tag: 1.4
 
 A simple jQuery widget (can be called from posts) for displaying an archive list with some effects.
 
@@ -45,7 +45,7 @@ This plugin provides a widget and a filter to display a collapsible archive list
 
 = Why this plugin is not working? =
 
-By support experience, like 99% of problems are due to: 
+By support experience, like 99% of problems are due to:
 * There's a Javascript error caused by other plugin and it stops any further code execution, check your browser's logs to find the problem and deactivate the conflict plugin.
 * Your template doesn't have a wp_footer() function, this plugin requires this function to load JS code at the end of the website to improve speed.
 
@@ -56,7 +56,7 @@ so please write me on these languages.
 
 = Can I use images as bullets or trigger symbols? =
 
-Yes, select 'Empty Space' as trigger symbol and Save, then you can add any custom background using CSS, 
+Yes, select 'Empty Space' as trigger symbol and Save, then you can add any custom background using CSS,
 just play with the widget's classes .jaw_symbol, .jaw_years, .jaw_months.
 
 
@@ -83,12 +83,12 @@ when looking the site it will have a new copy of the widget.
 
 Currently there's partial support for this, you can add parameters to the shortcode to make different behaviors. For example: [jQuery Archive List showcount=no showpost=no expandcurrent=no month_format="short" ]
 will create a instance without showing the post's count, no post under months, current year is not expanded and date's format is short. Support for the rest of option will
-come in future versions. 
+come in future versions.
 
-= Why does it needs write permission on the plugin's folder? = 
+= Why does it needs write permission on the plugin's folder? =
 
 It only needs for this plugin's folder, because it creates a separted JS file
-after configuration is saved, this improve performance on browsers by caching 
+after configuration is saved, this improve performance on browsers by caching
 or minifying it (using other plugins)
 
 == Screenshots ==

@@ -4,7 +4,7 @@
   Plugin URI: http://skatox.com/blog/jquery-archive-list-widget/
   Description: A simple jQuery widget for displaying an archive list with some effects (inspired by Collapsible Archive Widget)
   Author: Miguel Useche
-  Version: 1.3.1
+  Version: 1.4
   Author URI: http://skatox.com/
 
   Copyleft 2009-2013  Miguel Useche  (email : migueluseche@skatox.com)
@@ -43,7 +43,7 @@ function jal_load_options() {
     $jal_options['month_format'] = $options['month_format'];
     $jal_options['title'] = empty($options['title']) ? __('Default Title', 'jalw_i18n') : $options['title'];
     $options['excluded'] = empty($options['excluded']) ? array() : unserialize($options['excluded']);
-   
+
     //Exclude feature was developed by Michael Westergaard <michael@westergaard.eu>
     //and improved by myself at v 1.3.1
     $jal_options['excluded'] = implode(',', $options['excluded']);
@@ -96,7 +96,7 @@ function jal_get_years($jal_options) {
 
         $join_raw = " LEFT JOIN {$wpdb->term_relationships} ON({$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id)";
         $join_raw .= " LEFT JOIN {$wpdb->term_taxonomy} ON({$wpdb->term_relationships}.term_taxonomy_id = {$wpdb->term_taxonomy}.term_taxonomy_id)";
-        
+
     }
 
     //Filters supplied by Ramiro García <ramiro(at)inbytes.com>
@@ -125,7 +125,7 @@ function jal_get_months($jal_options, $year) {
 
         $join_raw = " LEFT JOIN {$wpdb->term_relationships} ON({$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id)";
         $join_raw .= " LEFT JOIN {$wpdb->term_taxonomy} ON({$wpdb->term_relationships}.term_taxonomy_id = {$wpdb->term_taxonomy}.term_taxonomy_id)";
-        
+
     }
 
     $where = apply_filters('getarchives_where', $where_raw);
@@ -157,7 +157,7 @@ function jal_get_posts($jal_options, $year, $month) {
 
         $join_raw = "LEFT JOIN {$wpdb->term_relationships} ON({$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id)";
         $join_raw .= "LEFT JOIN {$wpdb->term_taxonomy} ON({$wpdb->term_relationships}.term_taxonomy_id = {$wpdb->term_taxonomy}.term_taxonomy_id)";
-        
+
     }
 
     $where = apply_filters('getarchives_where', $where_raw);
@@ -303,7 +303,7 @@ function jal_build_html_code($jal_options) {
  * @return int 1 or 0 if true or false
  */
 function jal_fix_attr( $attr ){
-    $val = 0; 
+    $val = 0;
 
     switch($attr){
         case 'yes':
