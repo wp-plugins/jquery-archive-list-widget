@@ -4,10 +4,10 @@
   Plugin URI: http://skatox.com/blog/jquery-archive-list-widget/
   Description: A simple jQuery widget for displaying an archive list with some effects (inspired by Collapsible Archive Widget)
   Author: Miguel Useche
-  Version: 1.3
+  Version: 1.3.1
   Author URI: http://skatox.com/
 
-  Copyleft 2009-2012  Miguel Useche  (email : migueluseche@skatox.com)
+  Copyleft 2009-2013  Miguel Useche  (email : migueluseche@skatox.com)
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -29,14 +29,11 @@ define("JAL_URL", "/wp-content/plugins/" . $jal_dir . "/");
 define("JAL_DIR", WP_PLUGIN_DIR . DIRECTORY_SEPARATOR . $jal_dir . DIRECTORY_SEPARATOR );
 define("JAL_JS_FILENAME", "jal.js");
 
-//Loads plugin's language file
-load_plugin_textdomain('jalw_i18n', false, basename( dirname( __FILE__ ) ) . '/lang' );
-
 /**
  * Loads plugin's options, interprets it for internal use
  * @return array of custom options
  */
-function aux_load_options() {
+function jal_load_options() {
     //Loads options
     $options = get_option('jquery_archive_list_widget');
     $jal_options = array();
@@ -45,20 +42,11 @@ function aux_load_options() {
     $jal_options['showcount'] = $options['showcount'];
     $jal_options['month_format'] = $options['month_format'];
     $jal_options['title'] = empty($options['title']) ? __('Default Title', 'jalw_i18n') : $options['title'];
-    $options['excluded'] = empty($options['exclude']) ? null : unserialize($options['excluded']);
-
+    $options['excluded'] = empty($options['excluded']) ? array() : unserialize($options['excluded']);
+   
     //Exclude feature was developed by Michael Westergaard <michael@westergaard.eu>
-    $first = true;
-    $excluded = '(';
-    if (is_array($options['excluded'])) {
-	    foreach ($options['excluded'] as $category) {
-		    if (!$first) $excluded .= ', ';
-		    $first = false;
-		    $excluded .= (int) $category;
-	    }
-    }
-    $excluded .= ')';
-    $jal_options['excluded'] = $excluded;
+    //and improved by myself at v 1.3.1
+    $jal_options['excluded'] = implode(',', $options['excluded']);
 
     switch ($options['symbol']) {
         case '0':
@@ -96,96 +84,88 @@ function aux_load_options() {
     return $jal_options;
 }
 
-function aux_get_years($jal_options) {
+function jal_get_years($jal_options) {
     global $wpdb;
 
-    //Filters supplied by Ramiro García <ramiro(at)inbytes.com>
-    if ($jal_options['excluded'] == '()') {
-	    $where = apply_filters('getarchives_where', "WHERE 
-		        post_type = 'post'
-		    AND post_status = 'publish'");
-    $join = apply_filters('getarchives_join', "");
-    } else {
-	    $where = apply_filters('getarchives_where', "WHERE 
-		        post_type = 'post'
-		    AND post_status = 'publish'
-		    AND {$wpdb->term_taxonomy}.term_id NOT IN {$jal_options['excluded']}
-		    AND {$wpdb->term_taxonomy}.taxonomy = 'category'");
-	    $join = apply_filters('getarchives_join', "
-		    LEFT JOIN {$wpdb->term_relationships} ON({$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id)  
-		    LEFT JOIN {$wpdb->term_taxonomy} ON({$wpdb->term_relationships}.term_taxonomy_id = {$wpdb->term_taxonomy}.term_taxonomy_id)
-		    ");
+    $join_raw = "";
+    $where_raw = "WHERE post_type = 'post' AND post_status = 'publish' ";
+
+    if(!empty($jal_options['excluded'])){
+        $where_raw .= "AND {$wpdb->term_taxonomy}.term_id NOT IN ({$jal_options['excluded']}) ";
+        $where_raw .= "AND {$wpdb->term_taxonomy}.taxonomy = 'category'";
+
+        $join_raw = " LEFT JOIN {$wpdb->term_relationships} ON({$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id)";
+        $join_raw .= " LEFT JOIN {$wpdb->term_taxonomy} ON({$wpdb->term_relationships}.term_taxonomy_id = {$wpdb->term_taxonomy}.term_taxonomy_id)";
+        
     }
 
-    $sql = "SELECT DISTINCT YEAR(post_date) AS `year`, count(ID) as posts ";
-    $sql .="FROM {$wpdb->posts} {$join} {$where} ";
-    $sql .="GROUP BY YEAR(post_date) ORDER BY post_date DESC";
+    //Filters supplied by Ramiro García <ramiro(at)inbytes.com>
+    $where = apply_filters('getarchives_where', $where_raw);
+    $join = apply_filters('getarchives_join', $join_raw);
+
+    $sql = "SELECT JAL.year, COUNT(JAL.ID) as `posts` FROM (";
+    $sql .= "SELECT DISTINCT YEAR(post_date) AS `year`, ID ";
+    $sql .="FROM {$wpdb->posts} {$join} {$where}";
+    $sql .=") JAL GROUP BY JAL.year ORDER BY JAL.year DESC";
 
     return $wpdb->get_results($sql);
 }
 
-function aux_get_months($jal_options, $year) {
+function jal_get_months($jal_options, $year) {
     global $wpdb;
 
-    //Filters supplied by Ramiro García <ramiro(at)inbytes.com>
-    if ($jal_options['excluded'] == '()') {
-	    $where = apply_filters('getarchives_where', "WHERE 
-		        post_type = 'post'
-		    AND post_status = 'publish'
-		    AND post_date >= (STR_TO_DATE(CONCAT_WS('-', {$year}, 1, 1), '%Y-%m-%d'))
-		    AND post_date < (DATE_ADD(STR_TO_DATE(CONCAT_WS('-', {$year}, 1, 1), '%Y-%m-%d'), INTERVAL 1 YEAR))");
-    $join = apply_filters('getarchives_join', "");
-    } else {
-	    $where = apply_filters('getarchives_where', "WHERE 
-		        post_type = 'post'
-		    AND post_status = 'publish'
-		    AND post_date >= (STR_TO_DATE(CONCAT_WS('-', {$year}, 1, 1), '%Y-%m-%d'))
-		    AND post_date < (DATE_ADD(STR_TO_DATE(CONCAT_WS('-', {$year}, 1, 1), '%Y-%m-%d'), INTERVAL 1 YEAR))
-		    AND {$wpdb->term_taxonomy}.term_id NOT IN {$jal_options['excluded']}
-		    AND {$wpdb->term_taxonomy}.taxonomy = 'category'");
-	    $join = apply_filters('getarchives_join', "
-		    LEFT JOIN {$wpdb->term_relationships} ON({$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id)  
-		    LEFT JOIN {$wpdb->term_taxonomy} ON({$wpdb->term_relationships}.term_taxonomy_id = {$wpdb->term_taxonomy}.term_taxonomy_id)
-		    ");
+    $join_raw = "";
+    $where_raw = "WHERE post_type = 'post' "
+        . "AND post_status = 'publish' "
+        . "AND YEAR(post_date) = {$year} ";
+
+    if(!empty($jal_options['excluded'])){
+        $where_raw .= "AND {$wpdb->term_taxonomy}.term_id NOT IN ({$jal_options['excluded']}) ";
+        $where_raw .= "AND {$wpdb->term_taxonomy}.taxonomy = 'category'";
+
+        $join_raw = " LEFT JOIN {$wpdb->term_relationships} ON({$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id)";
+        $join_raw .= " LEFT JOIN {$wpdb->term_taxonomy} ON({$wpdb->term_relationships}.term_taxonomy_id = {$wpdb->term_taxonomy}.term_taxonomy_id)";
+        
     }
 
-    $sql = "SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`, count(ID) as posts ";
-    $sql .="FROM {$wpdb->posts} {$join} {$where} ";
-    $sql.= "GROUP BY YEAR(post_date), MONTH(post_date) ORDER BY post_date DESC";
+    $where = apply_filters('getarchives_where', $where_raw);
+    $join = apply_filters('getarchives_join', $join_raw);
+
+    $sql = "SELECT JAL.year, JAL.month, COUNT(JAL.ID) as `posts` FROM (";
+    $sql .= "SELECT DISTINCT YEAR(post_date) AS `year`, MONTH(post_date) AS `month`,ID ";
+    $sql .="FROM {$wpdb->posts} {$join} {$where}";
+    $sql .=") JAL GROUP BY JAL.year,JAL.month ORDER BY JAL.year,JAL.month DESC";
 
     return $wpdb->get_results($sql);
 }
 
-function aux_get_posts($jal_options, $year, $month) {
+function jal_get_posts($jal_options, $year, $month) {
     global $wpdb;
 
     if (empty($year) || empty($month))
         return null;
 
-    //Filters supplied by Ramiro García <ramiro(at)inbytes.com>
-    if ($jal_options['excluded'] == '()') {
-	    $where = apply_filters('getarchives_where', "WHERE 
-		        post_type = 'post'
-		    AND post_status = 'publish'
-		    AND post_date >= (STR_TO_DATE(CONCAT_WS('-', {$year}, {$month}, 1), '%Y-%m-%d'))
-		    AND post_date < (DATE_ADD(STR_TO_DATE(CONCAT_WS('-', {$year}, {$month}, 1), '%Y-%m-%d'), INTERVAL 1 MONTH))");
-    $join = apply_filters('getarchives_join', "");
-    } else {
-	    $where = apply_filters('getarchives_where', "WHERE 
-		        post_type = 'post'
-		    AND post_status = 'publish'
-		    AND post_date >= (STR_TO_DATE(CONCAT_WS('-', {$year}, {$month}, 1), '%Y-%m-%d'))
-		    AND post_date < (DATE_ADD(STR_TO_DATE(CONCAT_WS('-', {$year}, {$month}, 1), '%Y-%m-%d'), INTERVAL 1 MONTH))
-		    AND {$wpdb->term_taxonomy}.term_id NOT IN {$jal_options['excluded']}
-		    AND {$wpdb->term_taxonomy}.taxonomy = 'category'");
-	    $join = apply_filters('getarchives_join', "
-		    LEFT JOIN {$wpdb->term_relationships} ON({$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id)  
-		    LEFT JOIN {$wpdb->term_taxonomy} ON({$wpdb->term_relationships}.term_taxonomy_id = {$wpdb->term_taxonomy}.term_taxonomy_id)
-		    ");
+    $join_raw = "";
+    $where_raw = "WHERE post_type = 'post' "
+        . "AND post_status = 'publish' "
+        . "AND YEAR(post_date) = {$year} "
+        . "AND MONTH(post_date) = {$month} ";
+
+    if(!empty($jal_options['excluded'])){
+        $where_raw .= "AND {$wpdb->term_taxonomy}.term_id NOT IN ({$jal_options['excluded']}) ";
+        $where_raw .= "AND {$wpdb->term_taxonomy}.taxonomy = 'category'";
+
+        $join_raw = "LEFT JOIN {$wpdb->term_relationships} ON({$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id)";
+        $join_raw .= "LEFT JOIN {$wpdb->term_taxonomy} ON({$wpdb->term_relationships}.term_taxonomy_id = {$wpdb->term_taxonomy}.term_taxonomy_id)";
+        
     }
 
-    $sql = "SELECT ID, post_title, post_name FROM {$wpdb->posts} ";
-    $sql .="$join $where ORDER BY post_date DESC";
+    $where = apply_filters('getarchives_where', $where_raw);
+    $join = apply_filters('getarchives_join', $join_raw);
+
+    $sql = "SELECT DISTINCT ID, post_title, post_name ";
+    $sql .="FROM {$wpdb->posts} {$join} {$where}";
+    $sql .="ORDER BY post_date DESC";
 
     return $wpdb->get_results($sql);
 }
@@ -193,10 +173,10 @@ function aux_get_posts($jal_options, $year, $month) {
 /**
  * Builds archive list's HTML code
  */
-function aux_build_html_code($jal_options) {
+function jal_build_html_code($jal_options) {
     global $wp_locale;
-    
-    $years = aux_get_years($jal_options);
+
+    $years = jal_get_years($jal_options);
     $html = '<ul>';
 
     $is_home = is_front_page() || is_home() || is_search() || is_page(); //Places where plugin should not show current year
@@ -211,9 +191,9 @@ function aux_build_html_code($jal_options) {
 
     //Prints Years
     for ($i = 0; $x < count($years[$i]); $i++) {
-        $this_year = $jal_options['expandcurrent'] && $years[$i]->year == $post_year;
+        $this_year = $jal_options['expandcurrent'] && $years[$i]->year == $post_year && $years[$i]->year == date('Y') ;
         $year_link = get_year_link($years[$i]->year);
-        
+
         if ($this_year) {
             $html.= "\n<li class=\"jaw_years expanded\"><a class=\"jaw_years\" href=\"{$year_link}\">";
             $html.= '<span class="jaw_symbol">'. htmlspecialchars($jal_options['con_sym']) . "</span> {$years[$i]->year}";
@@ -222,22 +202,22 @@ function aux_build_html_code($jal_options) {
             $html.= '<span class="jaw_symbol">'. htmlspecialchars($jal_options['ex_sym']) . "</span> {$years[$i]->year}";
         }
 
-        //Prints number of post_date	
-        if ($jal_options['showcount'] == 'true')
+        //Prints number of post_date
+        if ($jal_options['showcount'])
             $html.= " ({$years[$i]->posts})";
 
         $html.= '</a><ul>';
 
         //Prints Months
-        $months = aux_get_months($jal_options, $years[$i]->year);
+        $months = jal_get_months($jal_options, $years[$i]->year);
 
         foreach ($months as $month) {
             $month_url = get_month_link($years[$i]->year, $month->month);
-            
+
             $style = ($jal_options['expandcurrent'] && $this_year)? 'list-item' : 'none';
             $html.= "\n\t<li class=\"jaw_months\" style=\"display:{$style};\">";
             $html.= "<a class=\"jaw_months\" href=\"{$month_url}\">";
-            
+
             $this_month = $this_year && (($post_id >= 0 && $month->month == $post_month) || ($post_id < 0 && $month == $months[0]));
 
             if ($jal_options['showpost']){
@@ -267,14 +247,14 @@ function aux_build_html_code($jal_options) {
 
             if ($jal_options['showpost']) {
                 $html.= '<ul>';
-                $posts = aux_get_posts($jal_options, $years[$i]->year, $month->month);
-                
+                $posts = jal_get_posts($jal_options, $years[$i]->year, $month->month);
+
                 foreach ($posts as $post) {
                     $style = ($this_month)? 'list-item' : 'none';
                     $html.= "\n\t\t".'<li class="jaw_posts" style="display:' . $style .';">';
                     $html.= '<a href="' . get_permalink($post->ID) . '">' . $post->post_title . '</a></li>';
                 }
-                
+
                 $html.= '</ul>';
             }
             $html.= '</li>';
@@ -289,51 +269,71 @@ function aux_build_html_code($jal_options) {
     /**
      * Function to generate JS file
      */
-    function aux_build_js_file(){
-    
-        $options = aux_load_options();
+    function jal_build_js_file(){
+
+        $options = jal_load_options();
         $file = JAL_DIR . JAL_JS_FILENAME;
-        
-        $script = 
+
+        $script =
             "function jquery_archive_list_animate(clicked_obj){
-                if(jQuery(clicked_obj).parent().children('ul').children('li').is(':hidden')){
-                    jQuery(clicked_obj).parent().children('ul').children('li').{$options['fx_in']}();
-                    jQuery(clicked_obj).parent().children('a').children('.jaw_symbol').html('{$options['con_sym']}');
+                if(jQuery(clicked_obj).siblings('ul').children('li').is(':hidden')){
+                    jQuery(clicked_obj).siblings('ul').children('li').{$options['fx_in']}();
+                    jQuery(clicked_obj).children('.jaw_symbol').html('{$options['con_sym']}');
                 }
                 else
                 {
-                    jQuery(clicked_obj).parent().children('a').children('.jaw_symbol').html('{$options['ex_sym']}');
-                    jQuery(clicked_obj).parent().children('ul').children('li').{$options['fx_out']}();
+                    jQuery(clicked_obj).children('.jaw_symbol').html('{$options['ex_sym']}');
+                    jQuery(clicked_obj).siblings('ul').children('li').{$options['fx_out']}();
                 }
                 jQuery(clicked_obj).parent().toggleClass('expanded');
             }
 
             jQuery(document).ready(function() {
-                jQuery('li.jaw_years a.jaw_years').bind('click', function(){
+                jQuery('li.jaw_years a.jaw_years, li.jaw_months a.jaw_months').bind('click', function(){
                     jquery_archive_list_animate(this);
                             return false;
                 });
-            ";
-            
-            
-        if($options['showpost'])
-            $script .= " jQuery('li.jaw_months a.jaw_months').bind('click', function(){
-                    jquery_archive_list_animate(this);
-                                return false;
-                });";
-        
-        $script .= "});";
-        
+            });";
+
         return file_put_contents($file, $script);
     }
 
 /**
+ * Function to clean input from user
+ * @return int 1 or 0 if true or false
+ */
+function jal_fix_attr( $attr ){
+    $val = 0; 
+
+    switch($attr){
+        case 'yes':
+        case 'true':
+        case '1':
+            $val = 1;
+            break;
+    }
+
+    return $val;
+}
+
+/**
  * Function wich filters any [jQuery Archive List] text inside post to display archive list
  */
-function widget_filter_jquery_archives($content) {
-    $jal_options = aux_load_options();
-    $content = str_ireplace('[jQuery Archive List]', aux_build_html_code($jal_options), $content);
-    return $content;
+function jal_filter_jquery_archives($attr) {
+        extract(shortcode_atts(array(
+    		'showpost'	=> '',
+    		'expandcurrent'	=> '',
+            'showcount' => '',
+            'month_format' => '',
+        ), $attr));
+
+        $jal_options = jal_load_options();
+        $jal_options['showpost'] = isset($showpost) ? jal_fix_attr($showpost) : $jal_options['showpost'];
+        $jal_options['expandcurrent'] = isset($expandcurrent) ? jal_fix_attr($expandcurrent) : $jal_options['expandcurrent'];
+        $jal_options['showcount'] = isset($showcount) ? jal_fix_attr($showcount) : $jal_options['showcount'];
+        $jal_options['month_format'] = isset($month_format) ? $month_format : $jal_options['month_format'];
+
+    return jal_build_html_code($jal_options);
 }
 
 /**
@@ -344,7 +344,7 @@ function widget_display_jquery_archives_control() {
 
     //If submit button was pressed the variables are loaded by POST
     if ($_POST['jquery_archives_widget_submit']) {
-        
+
         $options['symbol'] = $_POST['jquery_archives_widget_symbol'];
         $options['title'] = stripslashes($_POST['jquery_archives_widget_title']);
         $options['effect'] = stripslashes($_POST['jquery_archives_widget_effect']);
@@ -352,13 +352,13 @@ function widget_display_jquery_archives_control() {
         $options['showpost'] = isset($_POST['jquery_archives_widget_showpost'])? true : false;
         $options['showcount'] = isset($_POST['jquery_archives_widget_showcount'])? true : false;
         $options['expandcurrent'] = isset($_POST['jquery_archives_widget_expandcurrent'])? true : false;
-        $options['excluded'] = isset ($_POST['jquery_archives_widget_excluded']) ? serialize($_POST['jquery_archives_widget_excluded']) : null;
+        $options['excluded'] = isset ($_POST['jquery_archives_widget_excluded']) ? serialize($_POST['jquery_archives_widget_excluded']) : NULL;
 
         //Update options in the Wordpress database
         update_option('jquery_archive_list_widget', $options);
-        
+
         //Creates js file
-        aux_build_js_file();
+        jal_build_js_file();
     }
     ?>
 
@@ -405,28 +405,23 @@ function widget_display_jquery_archives_control() {
         </dd>
         <dd>
             <input id="jquery_archives_widget_expandcurrent" name="jquery_archives_widget_expandcurrent" type="checkbox" <?php if($options['expandcurrent'] )  echo 'checked="checked"' ?> />
-            <?php _e('Intially expand current year','jalw_i18n') ?>
+            <?php _e('Initially expand current year','jalw_i18n') ?>
         </dd>
 	  <dt><strong><?php _e('Exclude categories', 'jalw_i18n') ?></strong></dt>
 	  <dd>
                 <select id="jquery_archives_widget_excluded" name="jquery_archives_widget_excluded[]" style="height:100px;"  multiple="multiple">
                       <?php
                       $cats = get_categories( array( 'child_of' => 0, 'hide_empty' => 1, 'hierarchical' => 1, 'taxonomy' => 'category' ) );
-                      $options['excluded'] = empty($options['exclude']) ? null : unserialize($options['excluded']);
-                      
+                      $options['excluded'] = empty($options['excluded']) ? array() : unserialize($options['excluded']);
+
                       foreach ($cats as $cat) {
-                          
-                          if(is_array($options['excluded']))
-                            $checked = (in_array($cat->term_id, $options['excluded'])) ? 'selected="selected"' : '';
-                          else
-                              $checked = '';
-                          
-                          echo "<option value=\"{$cat->term_id}\" {$checked}>{$cat->cat_name}</option>";
+                        $checked = (in_array($cat->term_id, $options['excluded'])) ? 'selected="selected"' : '';
+                        echo "<option value=\"{$cat->term_id}\" {$checked}>{$cat->cat_name}</option>";
                       }
                       ?>
                   </select>
 	  </dd>
-    </dl> 
+    </dl>
     <input type="hidden" name="jquery_archives_widget_submit" value="1" />
     <?php
 }
@@ -434,41 +429,42 @@ function widget_display_jquery_archives_control() {
 /**
  * Displays the archive list
  */
-function widget_display_jQuery_archives($args) {
+function jal_display_jQuery_archives($args) {
     extract($args);
-    $jal_options = aux_load_options();
+    $jal_options = jal_load_options();
 
     echo $before_widget;
     echo $before_title;
-    echo $jal_options['title']; 
+    echo $jal_options['title'];
     echo $after_title;
-    echo aux_build_html_code($jal_options);
+    echo jal_build_html_code($jal_options);
     echo $after_widget;
 }
 
-function widget_display_jQuery_archives_init() {
+function jal_display_jQuery_archives_init() {
     //Includes translation file
-    if (function_exists("load_plugin_textdomain")) 
-        load_plugin_textdomain('jalw_i18n', JAL_DIR . "/lang/");
+    if (function_exists("load_plugin_textdomain"))
+        load_plugin_textdomain('jalw_i18n', null, basename( dirname( __FILE__ ) ) . '/lang');
 
     //Includes dynamic js script and loads jquery if it is not loaded
     if (function_exists("wp_enqueue_script") && !is_admin()) {
-        
+
         if(!file_exists(JAL_DIR . JAL_JS_FILENAME))
-            aux_build_js_file();
-        
+            jal_build_js_file();
+
         wp_enqueue_script('jquery_archive_list', get_option("siteurl") . JAL_URL . JAL_JS_FILENAME , array('jquery'), false, true);
     }
 
     //register this plugin
     wp_register_sidebar_widget(
-            'jquery-archive-list-widget', 'jQuery Archive List', 'widget_display_jQuery_archives', array('description' => 'A simple jQuery widget for displaying an archive list with some effects.'
+            'jquery-archive-list-widget', 'jQuery Archive List', 'jal_display_jQuery_archives', array('description' => 'A simple jQuery widget for displaying an archive list with some effects.'
     ));
     wp_register_widget_control('jquery-archive-list-widget', 'jQuery Archive List', 'widget_display_jQuery_archives_control');
 }
 
-add_action('init', 'widget_display_jQuery_archives_init');
-add_filter('the_content', 'widget_filter_jquery_archives');
+add_action('plugins_loaded', 'jal_display_jQuery_archives_init');
+add_shortcode('jQuery Archive List', 'jal_filter_jquery_archives');
+add_filter('widget_text', 'do_shortcode');
 
 //filters on widgets (thanks to Ramiro García <ramiro(at)inbytes.com>)
-add_action('widget_text', 'widget_filter_jquery_archives');
+// add_filter('widget_text', 'jal_filter_jquery_archives', JAL_PRIORITY, JAL_ACCEPTED_ARGS );

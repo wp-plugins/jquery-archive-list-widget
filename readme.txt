@@ -3,8 +3,8 @@ Contributors: Miguel Useche
 Donate link: http://skatox.com/blog/jquery-archive-list-widget/
 Tags: jquery, ajax, javacript, collapse, collapsible, archive, collapsible archive, widget
 Requires at least: 2.8
-Tested up to: 3.4.2
-Stable tag: 1.3
+Tested up to: 3.5
+Stable tag: 1.3.1
 
 A simple jQuery widget (can be called from posts) for displaying an archive list with some effects.
 
@@ -19,12 +19,14 @@ This plugin provides a widget and a filter to display a collapsible archive list
  4. Support for archive filters.
  5. Auto expands current/select year from posts.
  6. Select the categories to exclude
- 7. And more to come...
+ 7. Partial multiple instances support.
+ 8. Filter support ( [jQuery Archive List] )
+ 9. And more to come...
 
 == Installation ==
 
 1. Make a directory jquery-archive-list-widget under /wp-content/plugins/
-1. Upload all downloaded files to /wp-content/plugins/jquery-archive-list-widget/
+1. Upload all downloaded files to /wp-content/plugins/jquery-archive-list-widget/ (make sure that web server has permission to write a file in here)
 1. Activate plugin at the plugins section.
 1. Go to Presentation -> Widgets and drag the jQuery Archive List to your sidebar and configure it, if you want to display it inside a post then write [jQuery Archive List] at the location where it will be shown and save it.
 
@@ -37,6 +39,7 @@ This plugin provides a widget and a filter to display a collapsible archive list
 * Show number of posts: display how many post are published in the year or in the month.
 * Show posts under months:  show post's title under months.
 * Intially expand current year: expands current year at home screen.
+* Exclude categories: Select the categories to exclude.
 
 == Frequently Asked Questions ==
 
@@ -60,7 +63,11 @@ just play with the widget's classes .jaw_symbol, .jaw_years, .jaw_months.
 = Can I show this list inside posts? =
 
 Yes, only write [jQuery Archive List] anywhere inside a post or page's contest and it will be replaced for
-the archive list when rendering the content.
+the archive list when rendering the content. You can add the following parameters to change its behavior:
+1. showcount ( boolean ): Select if you want to show the count post inside that month/year.
+1. showpost ( boolean ): Show post's titles under months.
+1. expandcurrent (boolean): Expand current year.
+1. month_format ("short", "full", "number"): The format of the date.
 
 = How I contribute to this plugin? =
 
@@ -70,8 +77,19 @@ or coding new features and finally by DONATING using plugin's website's donate l
 = How can i add multiples instances? =
 
 Since 1.1 there's a trick to do it, just add a new Text widget only with  [jQuery Archive List] as content (without quotes) then
-when looking the site it will have a new copy of the widget. Due to the plugin architecture, there's no way to have
-a single configuration for each instance (but you can edit source code and register and copy  widget functions to implement this).
+when looking the site it will have a new copy of the widget.
+
+= Can I have different instances with different configuration? ==
+
+Currently there's partial support for this, you can add parameters to the shortcode to make different behaviors. For example: [jQuery Archive List showcount=no showpost=no expandcurrent=no month_format="short" ]
+will create a instance without showing the post's count, no post under months, current year is not expanded and date's format is short. Support for the rest of option will
+come in future versions. 
+
+= Why does it needs write permission on the plugin's folder? = 
+
+It only needs for this plugin's folder, because it creates a separted JS file
+after configuration is saved, this improve performance on browsers by caching 
+or minifying it (using other plugins)
 
 == Screenshots ==
 
@@ -79,6 +97,13 @@ a single configuration for each instance (but you can edit source code and regis
 2.  Here you can see a list of archives and its month archives expanded.
 
 == Change Log ==
+
+= 1.3.1 =
+* Updated i10n functions to Wordpress 3.5, no more deprecations warning should appear with i10n stuff.
+* Solved the i10n bug of not transating the exclude categories label.
+* Improved Javascript code (please save again the configuration to take effect)
+* Better shortcode/filter support. now it has attributes for different behavior on instances. (There's no support for effect and symbol because it is managed through the JS file )
+
 = 1.3 =
 * Improved query performance and added option to exclude categories. (thanks to Michael Westergaard for the work)
 
