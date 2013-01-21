@@ -79,7 +79,7 @@ or coding new features and finally by DONATING using plugin's website's donate l
 Since 1.1 there's a trick to do it, just add a new Text widget only with  [jQuery Archive List] as content (without quotes) then
 when looking the site it will have a new copy of the widget.
 
-= Can I have different instances with different configuration? ==
+= Can I have different instances with different configuration? =
 
 Currently there's partial support for this, you can add parameters to the shortcode to make different behaviors. For example: [jQuery Archive List showcount=no showpost=no expandcurrent=no month_format="short" ]
 will create a instance without showing the post's count, no post under months, current year is not expanded and date's format is short. Support for the rest of option will
