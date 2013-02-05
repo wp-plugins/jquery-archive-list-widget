@@ -85,7 +85,7 @@ Currently there's partial support for this, you can add parameters to the shortc
 will create a instance without showing the post's count, no post under months, current year is not expanded and date's format is short. Support for the rest of option will
 come in future versions.
 
-= Why does it needs write permission on the plugin's folder? =
+= Why does it need write permission on the plugin's folder? =
 
 It only needs for this plugin's folder, because it creates a separted JS file
 after configuration is saved, this improve performance on browsers by caching
