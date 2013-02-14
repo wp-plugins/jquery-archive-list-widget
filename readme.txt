@@ -3,8 +3,8 @@ Contributors: Miguel Useche
 Donate link: http://skatox.com/blog/jquery-archive-list-widget/
 Tags: jquery, ajax, javacript, collapse, collapsible, archive, collapsible archive, widget
 Requires at least: 2.8
-Tested up to: 3.5
-Stable tag: 1.4.1
+Tested up to: 3.5.1
+Stable tag: 1.4.2
 
 A simple jQuery widget (can be called from posts) for displaying an archive list with some effects.
 
@@ -97,6 +97,9 @@ or minifying it (using other plugins)
 2.  Here you can see a list of archives and its month archives expanded.
 
 == Change Log ==
+
+= 1.4.2 =
+* Fixed some several bugs, thanks to Marco Lizza who reviewed the code and fixed them. Plugin should be more stable and won't throw errors when display_errors is on.
 
 = 1.4.1 =
 * Solved Javascript bug where in some configurations, months and posts links were not working.
