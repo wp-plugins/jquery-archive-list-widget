@@ -76,7 +76,10 @@ the archive list when rendering the content. You can add the following parameter
 1. **only_sym_link**: only expand/collapse when clicking the bullet.
 1. **fx_in** ("", "slideDown", "fadeIn"): the jQuery effect to implement.
 
-So for example, '[jQuery Archive List month_format=number showpost=1 showcount=1 ex_sym=+ con_sym=- fx_in=fadeIn]' will show a widget with months as numbers, show posts under months and their count, the simbols are + and - and the effect is fadeIn. You can check source code for more information.
+So for example:
+ '[jQuery Archive List month_format=number showpost=1 showcount=1 ex_sym=+ con_sym=- fx_in=fadeIn]' 
+
+Will show a widget with months as numbers, show posts under months and their count, the simbols are + and - and the effect is fadeIn. You can check source code for more information.
 
 = How I contribute to this plugin? =
 
