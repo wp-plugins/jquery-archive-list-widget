@@ -2,11 +2,11 @@
 Contributors: Miguel Useche
 Donate link: http://skatox.com/blog/jquery-archive-list-widget/
 Tags: jquery, ajax, javacript, collapse, collapsible, archive, collapsible archive, widget
-Requires at least: 2.8
+Requires at least: 3.0
 Tested up to: 3.5.1
-Stable tag: 1.4.2
+Stable tag: 2.0
 
-A simple jQuery widget (can be called from posts) for displaying an archive list with some effects.
+A simple jQuery widget (can be used in posts) for displaying an archive list with some effects.
 
 == Description ==
 
@@ -19,26 +19,27 @@ This plugin provides a widget and a filter to display a collapsible archive list
  4. Support for archive filters.
  5. Auto expands current/select year from posts.
  6. Select the categories to exclude
- 7. Partial multiple instances support.
- 8. Filter support ( [jQuery Archive List] )
+ 7. Multiple instances support.
+ 8. Shortcode support ( [jQuery Archive List] )
  9. And more to come...
 
 == Installation ==
 
 1. Make a directory jquery-archive-list-widget under /wp-content/plugins/
-1. Upload all downloaded files to /wp-content/plugins/jquery-archive-list-widget/ (make sure that web server has permission to write a file in here)
+1. Upload all downloaded files to /wp-content/plugins/jquery-archive-list-widget/ 
 1. Activate plugin at the plugins section.
 1. Go to Presentation -> Widgets and drag the jQuery Archive List to your sidebar and configure it, if you want to display it inside a post then write [jQuery Archive List] at the location where it will be shown and save it.
 
 == Configuration ==
 
 * Title: title of the widget.
-* Trigger Symbol:  characters to be displayed as a bullet.
-* jQuery Effect: jQuery's effect to use.
+* Trigger Symbol:  characters to be displayed as bullet.
+* Effect: jQuery's effect to use.
+* Expand: when to expand the content of the list.
 * Month Format:  month's display format of the month.
 * Show number of posts: display how many post are published in the year or in the month.
 * Show posts under months:  show post's title under months.
-* Intially expand current year: expands current year at home screen.
+* Only expand/reduce by clicking the symbol: select if animations start when click the link or just the bullet.
 * Exclude categories: Select the categories to exclude.
 
 == Frequently Asked Questions ==
@@ -48,11 +49,11 @@ This plugin provides a widget and a filter to display a collapsible archive list
 By support experience, like 99% of problems are due to:
 * There's a Javascript error caused by other plugin and it stops any further code execution, check your browser's logs to find the problem and deactivate the conflict plugin.
 * Your template doesn't have a wp_footer() function, this plugin requires this function to load JS code at the end of the website to improve speed.
+* You're using a plugin that removes Wordpress' jQuery version and inserts an old one.
 
 = How I can send you a translation? =
 
-Send me the translated .mo file to migueluseche(a)skatox.com and indicate the language, I can read english or spanish,
-so please write me on these languages.
+Send me the translated .mo file to migueluseche(a)skatox.com and indicate the language, I can read english or spanish, so please write me on these languages.
 
 = Can I use images as bullets or trigger symbols? =
 
@@ -64,32 +65,30 @@ just play with the widget's classes .jaw_symbol, .jaw_years, .jaw_months.
 
 Yes, only write [jQuery Archive List] anywhere inside a post or page's contest and it will be replaced for
 the archive list when rendering the content. You can add the following parameters to change its behavior:
+
 1. showcount ( boolean ): Select if you want to show the count post inside that month/year.
 1. showpost ( boolean ): Show post's titles under months.
-1. expandcurrent (boolean): Expand current year.
+1. expand ("none", "never", "expand"): Never expand by default, current year only and always expand.
 1. month_format ("short", "full", "number"): The format of the date.
+1. ex_sym: the expansion symbol.
+1. con_sym: the collapse symbol.
+1. only_sym_link: only expand/collapse when clicking the bullet.
+1. fx_in ("", "slideDown", "fadeIn"): the jQuery effect to implement.
+
+So for example, [jQuery Archive List month_format=number showpost=1 showcount=1 ex_sym=+ con_sym=- fx_in=fadeIn] will show a widget with months as numbers, show posts under months and their count, the simbols are + and - and the effect is fadeIn. You can check source code for more information.
 
 = How I contribute to this plugin? =
 
-By using it, recommending it to other users, giving it 5 starts at plugin's wordpress page, suggesting features
-or coding new features and finally by DONATING using plugin's website's donate link.
+By using it, recommending it to other users, giving it 5 starts at plugin's wordpress page, suggesting features or coding new features and finally by DONATING using plugin's website's donate link.
 
 = How can i add multiples instances? =
 
-Since 1.1 there's a trick to do it, just add a new Text widget only with  [jQuery Archive List] as content (without quotes) then
-when looking the site it will have a new copy of the widget.
+Since 2.0 you can add as many instances as you want, but there's another way to do it, just add a new Text widget only with the shortcode [jQuery Archive List] then it will have a new copy of the widget.
 
 = Can I have different instances with different configuration? =
 
-Currently there's partial support for this, you can add parameters to the shortcode to make different behaviors. For example: [jQuery Archive List showcount=no showpost=no expandcurrent=no month_format="short" ]
-will create a instance without showing the post's count, no post under months, current year is not expanded and date's format is short. Support for the rest of option will
-come in future versions.
+Since 2.0 it's possible. Each instance has its own configuration. Shortcode widgets are controlled by shortcode attributes.
 
-= Why does it need write permission on the plugin's folder? =
-
-It only needs for this plugin's folder, because it creates a separted JS file
-after configuration is saved, this improve performance on browsers by caching
-or minifying it (using other plugins)
 
 == Screenshots ==
 
@@ -97,6 +96,16 @@ or minifying it (using other plugins)
 2.  Here you can see a list of archives and its month archives expanded.
 
 == Change Log ==
+
+= 2.0 =
+* Huge update thanks to donations! If you upgrade to this version you'll NEED to configurate the widget AGAIN, due to architecture rewriting configuration may get lost.
+* Added support for multiples instances, finally you can have as many widgets as you want without any hack :)
+* Added support for dynamic widgets
+* Added an option to not have any effect when expanding or collapsing. 
+* Added an option to activate the expand/collapse only when clicking the bullet. 
+* Removed dynamic generation of the JS file, now you don't need write permissions on the folder.
+* Rewroted JS code, now it is a single JS file for all instances, improved perfomance and compatible with all cache plugins.
+* Updated translation files for Spanish, Czech, Slovak and Italian.
 
 = 1.4.2 =
 * Fixed some several bugs, thanks to Marco Lizza who reviewed the code and fixed them. Plugin should be more stable and won't throw errors when display_errors is on.
