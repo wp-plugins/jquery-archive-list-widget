@@ -20,7 +20,7 @@ This plugin provides a widget and a filter to display a collapsible archive list
  5. Auto expands current/select year from posts.
  6. Select the categories to exclude
  7. Multiple instances support.
- 8. Shortcode support ( [jQuery Archive List] )
+ 8. Shortcode support  '[jQuery Archive List]'
  9. And more to come...
 
 == Installation ==
@@ -28,7 +28,7 @@ This plugin provides a widget and a filter to display a collapsible archive list
 1. Make a directory jquery-archive-list-widget under /wp-content/plugins/
 1. Upload all downloaded files to /wp-content/plugins/jquery-archive-list-widget/ 
 1. Activate plugin at the plugins section.
-1. Go to Presentation -> Widgets and drag the jQuery Archive List to your sidebar and configure it, if you want to display it inside a post then write [jQuery Archive List] at the location where it will be shown and save it.
+1. Go to Presentation -> Widgets and drag the jQuery Archive List to your sidebar and configure it, if you want to display it inside a post then write '[jQuery Archive List]' at the location where it will be shown and save it.
 
 == Configuration ==
 
@@ -47,6 +47,7 @@ This plugin provides a widget and a filter to display a collapsible archive list
 = Why this plugin is not working? =
 
 By support experience, like 99% of problems are due to:
+
 * There's a Javascript error caused by other plugin and it stops any further code execution, check your browser's logs to find the problem and deactivate the conflict plugin.
 * Your template doesn't have a wp_footer() function, this plugin requires this function to load JS code at the end of the website to improve speed.
 * You're using a plugin that removes Wordpress' jQuery version and inserts an old one.
@@ -58,28 +59,31 @@ Send me the translated .mo file to migueluseche(a)skatox.com and indicate the la
 = Can I use images as bullets or trigger symbols? =
 
 Yes, select 'Empty Space' as trigger symbol and Save, then you can add any custom background using CSS,
-just play with the widget's classes .jaw_symbol, .jaw_years, .jaw_months.
+just play with the widget's classes: .jaw_symbol, .jaw_years, .jaw_months.
 
 
 = Can I show this list inside posts? =
 
-Yes, only write [jQuery Archive List] anywhere inside a post or page's contest and it will be replaced for
+Yes, only write '[jQuery Archive List]' anywhere inside a post or page's contest and it will be replaced for
 the archive list when rendering the content. You can add the following parameters to change its behavior:
 
-1. showcount ( boolean ): Select if you want to show the count post inside that month/year.
-1. showpost ( boolean ): Show post's titles under months.
-1. expand ("none", "never", "expand"): Never expand by default, current year only and always expand.
-1. month_format ("short", "full", "number"): The format of the date.
-1. ex_sym: the expansion symbol.
-1. con_sym: the collapse symbol.
-1. only_sym_link: only expand/collapse when clicking the bullet.
-1. fx_in ("", "slideDown", "fadeIn"): the jQuery effect to implement.
+1. **showcount** ( boolean ): Select if you want to show the count post inside that month/year.
+1. **showpost** ( boolean ): Show post's titles under months.
+1. **expand** ("none", "never", "expand"): Never expand by default, current year only and always expand.
+1. **month_format** ("short", "full", "number"): The format of the date.
+1. **ex_sym**: the expansion symbol.
+1. **con_sym**: the collapse symbol.
+1. **only_sym_link**: only expand/collapse when clicking the bullet.
+1. **fx_in** ("", "slideDown", "fadeIn"): the jQuery effect to implement.
 
-So for example, [jQuery Archive List month_format=number showpost=1 showcount=1 ex_sym=+ con_sym=- fx_in=fadeIn] will show a widget with months as numbers, show posts under months and their count, the simbols are + and - and the effect is fadeIn. You can check source code for more information.
+So for example:
+ '[jQuery Archive List month_format=number showpost=1 showcount=1 ex_sym=+ con_sym=- fx_in=fadeIn]' 
+
+Will show a widget with months as numbers, show posts under months and their count, the simbols are + and - and the effect is fadeIn. You can check source code for more information.
 
 = How I contribute to this plugin? =
 
-By using it, recommending it to other users, giving it 5 starts at plugin's wordpress page, suggesting features or coding new features and finally by DONATING using plugin's website's donate link.
+By using it, recommending it to other users, giving it 5 starts at plugin's wordpress page, suggesting features or coding new features and finally by **DONATING** using plugin's website's donate link.
 
 = How can i add multiples instances? =
 
