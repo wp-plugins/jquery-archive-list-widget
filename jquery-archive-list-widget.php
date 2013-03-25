@@ -59,9 +59,7 @@ class JQArchiveList extends WP_Widget
             'jQuery Archive List Widget', 
             array(
                 'description' => __(
-                    'A simple jQuery widget for displaying an 
-                    archive list with some effects (inspired by 
-                    Collapsible Archive Widget)'
+                    __('A simple jQuery widget for displaying an archive list with some effects.', 'jalw_i18n')
                 )
             )
         );
@@ -146,7 +144,7 @@ class JQArchiveList extends WP_Widget
         $instance = wp_parse_args( (array) $instance, $this->defaults ); 
     ?>  
         <dl>
-            <dt><strong><?php _e('Title') ?></strong></dt>
+            <dt><strong><?php _e('Title', 'jalw_i18n') ?></strong></dt>
             <dd>
                 <input name="<?php echo $this->get_field_name( 'title' )?>" type="text" value="<?php echo $instance['title']; ?>" />
             </dd>
@@ -467,7 +465,6 @@ class JQArchiveList extends WP_Widget
                 $val = 1;
                 break;
         }
-
         return $val;
     }
 
@@ -486,6 +483,3 @@ function jal_register_widget() {
 }
 
 add_action('widgets_init', 'jal_register_widget');
-    
-
-/////nuevas traducciones probar esas opciones.

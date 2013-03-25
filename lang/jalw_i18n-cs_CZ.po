@@ -38,6 +38,10 @@ msgstr "Prázdné místo"
 msgid "Effect"
 msgstr "Efekt"
 
+#: jquery-archive-list-widget.php:174
+msgid "None"
+msgstr "žádný"
+
 #: jquery-archive-list-widget.php:264
 msgid "Slide (Accordion)"
 msgstr "Vysouvací"
@@ -62,6 +66,19 @@ msgstr "Zkráceně (Led)"
 msgid "Number (01)"
 msgstr "Number (01)"
 
+
+#: jquery-archive-list-widget.php:198
+msgid "Expand"
+msgstr "Rozšířit"
+
+#: jquery-archive-list-widget.php:205
+msgid "All"
+msgstr "Vše"
+
+#: jquery-archive-list-widget.php:208
+msgid "Current year"
+msgstr "Aktuální rok"
+
 #: jquery-archive-list-widget.php:277
 msgid "Extra options"
 msgstr "Další možnosti"
@@ -82,6 +99,10 @@ msgstr "Zpočátku Rozbalit roku"
 msgid "Exclude categories"
 msgstr "Kategorie pro vyloučení"
 
+#: jquery-archive-list-widget.php:351
+msgid "There are no post to show."
+msgstr "Nejsou k dispozici žádné příspěvek pro zobrazení."
+
 #. Plugin Name of the plugin/theme
 msgid "jQuery Archive List Widget"
 msgstr "jQuery Archivní seznam"
@@ -91,8 +112,8 @@ msgid "http://skatox.com/blog/2009/12/26/jquery-archive-list-widget/"
 msgstr "http://skatox.com/blog/2009/12/26/jquery-archive-list-widget/"
 
 #. Description of the plugin/theme
-msgid "A simple jQuery widget for displaying an archive list with some effects (inspired by Collapsible Archive Widget)"
-msgstr "Jednoduchý jQuery widget pro zobrazení archivu s různými efekty (inspirovaný Collapsible Archive Widgetem)"
+msgid "A simple jQuery widget for displaying an archive list with some effects."
+msgstr "Jednoduchý jQuery widget pro zobrazení archivu s různými efekty."
 
 #. Author of the plugin/theme
 msgid "Miguel Useche"
