@@ -7,15 +7,20 @@ function jquery_archive_list_animate(clickedObj, options)
     if (jQuery(clickedObj).siblings('ul').children('li').is(':hidden')) {
         jQuery(clickedObj).children('.jaw_symbol').html(options['con_sym'])
 
-        if(options['fx_in'] == 'fadeIn')
+        if(options['fx_in'] === 'fadeIn')
             jQuery(clickedObj).siblings('ul').children('li').fadeIn()
-        else
+        else if (options['fx_in'] === 'slideDown')
             jQuery(clickedObj).siblings('ul').children('li').slideDown()
-    } else {
-        if(options['fx_in'] == 'fadeIn')
-            jQuery(clickedObj).siblings('ul').children('li').fadeOut('', changeSymbol);
         else
+            jQuery(clickedObj).siblings('ul').children('li').show()
+    } else {
+        if(options['fx_in'] === 'fadeIn')
+            jQuery(clickedObj).siblings('ul').children('li').fadeOut('', changeSymbol)
+        else if (options['fx_in'] === 'slideDown')
             jQuery(clickedObj).siblings('ul').children('li').slideUp('', changeSymbol)
+        else
+            jQuery(clickedObj).siblings('ul').children('li').hide()
+            
     }
     jQuery(clickedObj).parent().toggleClass('expanded')
 }

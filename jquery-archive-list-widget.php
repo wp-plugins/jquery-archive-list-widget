@@ -135,6 +135,9 @@ class JQArchiveList extends WP_Widget
                 $instance['fx_in'] = 'fadeIn';
                 $instance['fx_out'] = 'fadeOut';
                 break;
+            default:
+                $instance['fx_in'] = 'none';
+                $instance['fx_out'] = 'none';
         }
         return $instance;
     }
@@ -168,7 +171,7 @@ class JQArchiveList extends WP_Widget
             <dt><strong><?php _e('Effect', 'jalw_i18n') ?></strong></dt>
             <dd>
                 <select id="<?php echo $this->get_field_id( 'effect' ) ?>" name="<?php echo $this->get_field_name( 'effect' ) ?>">
-                    <option value="" <?php if ($instance['effect'] == '') echo 'selected="selected"'?>>
+                    <option value="none" <?php if ($instance['effect'] == '') echo 'selected="selected"'?>>
                         <?php _e('None', 'jalw_i18n') ?>
                     </option>
                     <option value="slide"  <?php if ($instance['effect'] == 'slide') echo 'selected="selected"' ?> >
