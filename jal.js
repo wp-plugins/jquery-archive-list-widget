@@ -19,7 +19,7 @@ function jquery_archive_list_animate(clickedObj, options)
         else if (options['fx_in'] === 'slideDown')
             jQuery(clickedObj).siblings('ul').children('li').slideUp('', changeSymbol)
         else
-            jQuery(clickedObj).siblings('ul').children('li').hide()
+            jQuery(clickedObj).siblings('ul').children('li').hide(0, changeSymbol)
             
     }
     jQuery(clickedObj).parent().toggleClass('expanded')
