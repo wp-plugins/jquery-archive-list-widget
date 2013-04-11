@@ -1,5 +1,5 @@
 === jQuery Archive List Widget ===
-Contributors: Miguel Useche
+Contributors: skatox
 Donate link: http://skatox.com/blog/jquery-archive-list-widget/
 Tags: jquery, ajax, javacript, collapse, collapsible, archive, collapsible archive, widget
 Requires at least: 3.0
