@@ -78,6 +78,10 @@ msgstr "Všetko"
 msgid "Current year"
 msgstr "Bežný rok"
 
+#: jquery-archive-list-widget.php:208
+msgid "Current month"
+msgstr "Tento mesiac"
+
 #: jquery-archive-list-widget.php:277
 msgid "Extra options"
 msgstr "Ďalšie nastavenia"

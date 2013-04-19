@@ -4,7 +4,7 @@ Donate link: http://skatox.com/blog/jquery-archive-list-widget/
 Tags: jquery, ajax, javacript, collapse, collapsible, archive, collapsible archive, widget
 Requires at least: 3.0
 Tested up to: 3.5.1
-Stable tag: 2.0
+Stable tag: 2.0.1
 
 A simple jQuery widget (can be used in posts) for displaying an archive list with some effects.
 
@@ -61,7 +61,6 @@ Send me the translated .mo file to migueluseche(a)skatox.com and indicate the la
 Yes, select 'Empty Space' as trigger symbol and Save, then you can add any custom background using CSS,
 just play with the widget's classes: .jaw_symbol, .jaw_years, .jaw_months.
 
-
 = Can I show this list inside posts? =
 
 Yes, only write *[jQuery Archive List]* anywhere inside a post or page's contest and it will be replaced for
@@ -75,6 +74,7 @@ the archive list when rendering the content. You can add the following parameter
 1. **con_sym**: the collapse symbol.
 1. **only_sym_link**: only expand/collapse when clicking the bullet.
 1. **fx_in** ("", "slideDown", "fadeIn"): the jQuery effect to implement.
+1. **exclude**: IDs (comma separated) of the categories to exclude.
 
 So for example:
 
@@ -102,10 +102,15 @@ Since 2.0 it's possible. Each instance has its own configuration. Shortcode widg
 
 == Change Log ==
 
+= 2.1 =
+* Added option to exclude categories when using shortcodes, just add categorie's ID separated by commas in the exclude attribute.
+* Solved bug of not including JS file when using a filter without any widget.
+* Solved bug of not including JS in some WP installlations under Windows.
+
 = 2.0 =
 * Huge update thanks to donations! If you upgrade to this version you'll NEED to configurate the widget AGAIN, due to architecture rewriting configuration may get lost.
 * Added support for multiples instances, finally you can have as many widgets as you want without any hack :)
-* Added support for dynamic widgets
+* Added support for dynamic widgets.s
 * Added an option to not have any effect when expanding or collapsing. 
 * Added an option to activate the expand/collapse only when clicking the bullet. 
 * Removed dynamic generation of the JS file, now you don't need write permissions on the folder.

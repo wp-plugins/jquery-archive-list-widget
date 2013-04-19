@@ -73,6 +73,10 @@ msgstr "Todo"
 msgid "Current year"
 msgstr "A&ntilde;o actual"
 
+#: jquery-archive-list-widget.php:208
+msgid "Current month"
+msgstr "Mes actual"
+
 #: jquery-archive-list-widget.php:212
 msgid "Extra options"
 msgstr "Opciones adicionales"

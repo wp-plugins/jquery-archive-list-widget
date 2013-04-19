@@ -3,7 +3,7 @@
   Plugin Name: jQuery Archive List Widget
   Plugin URI: http://skatox.com/blog/jquery-archive-list-widget/
   Description: A simple jQuery widget for displaying an archive list with some effects.
-  Version: 2.0
+  Version: 2.0.1
   Author: Miguel Useche
   Author URI: http://migueluseche.com/
   License: GPL2
@@ -40,13 +40,14 @@ class JQArchiveList extends WP_Widget
             'showpost' => 0,
             'showcount' => 0,
             'expand' => 'none',
+            'excluded'=>NULL
         ); 
 
     public function __construct()
     {
-        $this->pluginUrl =  WP_PLUGIN_URL . DIRECTORY_SEPARATOR . 
+        $this->pluginUrl =  WP_PLUGIN_URL . '/' . 
                             preg_replace("/^.*[\/\\\]/", "", dirname(__FILE__)) .
-                            DIRECTORY_SEPARATOR . self::JS_FILENAME;
+                            '/' . self::JS_FILENAME;
 
         add_shortcode('jQuery Archive List', array($this,'filter'));
         add_filter('widget_text', 'do_shortcode');
@@ -476,7 +477,12 @@ class JQArchiveList extends WP_Widget
      */
     public function filter($attr)
     {
+        if (function_exists("wp_enqueue_script")) {
+            wp_enqueue_script('jquery_archive_list', $this->pluginUrl, array('jquery'), false, true);
+        }
+        
         $instance = shortcode_atts($this->defaults, $attr);
+        
         return $this->buildHtml($instance);
     }
 }

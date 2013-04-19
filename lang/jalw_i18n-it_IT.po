@@ -76,9 +76,13 @@ msgstr "Tutti"
 msgid "Current year"
 msgstr "Anno corrente"
 
+#: jquery-archive-list-widget.php:208
+msgid "Current month"
+msgstr "Anno corrente"
+
 #: jquery-archive-list-widget.php:277
 msgid "Extra options"
-msgstr "Altre opzioni"
+msgstr "Mese corrente"
 
 #: jquery-archive-list-widget.php:280
 msgid "Show number of posts"
