@@ -13,15 +13,16 @@ A jQuery widget (can be used in posts) for displaying an archive list with some 
 This plugin provides a widget and a filter to display a collapsible archive list in your sidebar or posts using the jQuery JS library.
 
 = Features =
- 1. Display a collapsed list of your archives to reduce space.
- 2. Uses jQuery to add effects and to be compatible with most browsers.
- 3. Select your expand/collapse symbol and date format.
- 4. Support for archive filters.
- 5. Auto expands current/select year from posts.
- 6. Select the categories to exclude
- 7. Multiple instances support.
- 8. Shortcode support  *[jQuery Archive List]*
- 9. And more to come...
+1. Display a collapsed list of your archives to reduce space.
+1. Uses jQuery to add effects and to be compatible with most browsers.
+1. Select your expand/collapse symbol and date format.
+1. Support for archive filters.
+1. Auto expands current/select year from posts.
+1. Select the categories to exclude
+1. Multiple instances support.
+1. Shortcode support  *[jQuery Archive List]*
+1. Generates valid HTML5 code.
+1. And more to come...
 
 == Installation ==
 
