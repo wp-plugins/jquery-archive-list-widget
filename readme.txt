@@ -6,7 +6,7 @@ Requires at least: 3.0
 Tested up to: 4.1
 Stable tag: 3.0
 
-A simple jQuery widget (can be used in posts) for displaying an archive list with some effects.
+A jQuery widget (can be used in posts) for displaying an archive list with some effects.
 
 == Description ==
 
@@ -26,7 +26,7 @@ This plugin provides a widget and a filter to display a collapsible archive list
 == Installation ==
 
 1. Make a directory jquery-archive-list-widget under */wp-content/plugins/*
-1. Upload all downloaded files to */wp-content/plugins/jquery-archive-list-widget/* 
+1. Upload all downloaded files to */wp-content/plugins/jquery-archive-list-widget/*
 1. Activate plugin at the plugins section.
 1. Go to *Presentation -> Widgets* and drag the jQuery Archive List to your sidebar and configure it, if you want to display it inside a post then write *[jQuery Archive List]* at the location where it will be shown and save it.
 
@@ -134,8 +134,8 @@ Since 2.0 it's possible. Each instance has its own configuration. Shortcode widg
 * Huge update thanks to donations! If you upgrade to this version you'll NEED to configurate the widget AGAIN, due to architecture rewriting configuration may get lost.
 * Added support for multiples instances, finally you can have as many widgets as you want without any hack :)
 * Added support for dynamic widgets.s
-* Added an option to not have any effect when expanding or collapsing. 
-* Added an option to activate the expand/collapse only when clicking the bullet. 
+* Added an option to not have any effect when expanding or collapsing.
+* Added an option to activate the expand/collapse only when clicking the bullet.
 * Removed dynamic generation of the JS file, now you don't need write permissions on the folder.
 * Rewroted JS code, now it is a single JS file for all instances, improved perfomance and compatible with all cache plugins.
 * Updated translation files for Spanish, Czech, Slovak and Italian.
@@ -193,5 +193,5 @@ Since 2.0 it's possible. Each instance has its own configuration. Shortcode widg
 * Almost all code were rewritten for better maintainer and easy way to add new features.
 * Improved code to be more Wordpress compatible.
 
-= 0.1.3 ==
+= 0.1.3 =
 * Initial public version.
