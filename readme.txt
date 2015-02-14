@@ -22,6 +22,8 @@ This plugin provides a widget and a filter to display a collapsible archive list
 1. Multiple instances support.
 1. Shortcode support  *[jQuery Archive List]*
 1. Generates valid HTML5 code.
+1. Supports multiple languages.
+1. Compatible with most JS caché and minify plugins.
 1. And more to come...
 
 == Installation ==
