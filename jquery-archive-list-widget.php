@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . '/admin/JAW_Walker_Category_Checklist.php';
   Plugin Name: jQuery Archive List Widget
   Plugin URI: http://skatox.com/blog/jquery-archive-list-widget/
   Description: A widget for displaying an archive list with some effects.
-  Version: 3.0
+  Version: 3.0.1
   Author: Miguel Useche
   Author URI: http://migueluseche.com/
   License: GPL2
@@ -522,7 +522,7 @@ class JQArchiveList extends WP_Widget
             }
             $html.= '</ul></li>';
         }
-        
+
         $html.= '</ul>';
         $html.= $this->printHiddenInput('fx_in');
         $html.= $this->printHiddenInput('ex_sym');
