@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . '/admin/JAW_Walker_Category_Checklist.php';
   Plugin Name: jQuery Archive List Widget
   Plugin URI: http://skatox.com/blog/jquery-archive-list-widget/
   Description: A widget for displaying an archive list with some effects.
-  Version: 3.0.1
+  Version: 3.0.2
   Author: Miguel Useche
   Author URI: http://migueluseche.com/
   License: GPL2
@@ -471,12 +471,14 @@ class JQArchiveList extends WP_Widget
                 if ( $expandMonth )
                 {
                     $expandClass = 'expanded';
-                    $style = 'list-item';
+                    $sym_key = 'con_sym';
+
                 } else {
                     $expandClass = '';
-                    $style = 'none';
+                    $sym_key = 'ex_sym';
                 }
 
+                $style = $expandYear ? 'list-item' : 'none';
                 $html.= "\n\t<li class=\"jaw_months {$expandClass}\" style=\"display:{$style};\">" .
                     "<a class=\"jaw_months\" href=\"{$month_url}\" title=\"{$monthFormat}\">";
 
