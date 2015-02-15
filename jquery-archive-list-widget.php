@@ -252,19 +252,27 @@ class JQArchiveList extends WP_Widget
             <dt><strong><?php _e('Extra options', 'jalw_i18n') ?></strong></dt>
             <dd>
                 <input id="<?php echo $this->get_field_id( 'showcount' ) ?>" name="<?php echo $this->get_field_name( 'showcount' ) ?>" type="checkbox" <?php if ($instance['showcount']) echo 'checked="checked"' ?> />
-                <?php _e('Show number of posts', 'jalw_i18n') ?>
+                <label for="<?php echo $this->get_field_id( 'showcount' ) ?>">
+                    <?php _e('Show number of posts', 'jalw_i18n') ?>
+                </label>
             </dd>
             <dd>
                 <input id="<?php echo $this->get_field_id( 'showpost' ) ?>" name="<?php echo $this->get_field_name( 'showpost' ) ?>" type="checkbox" <?php if ($instance['showpost']) echo 'checked="checked"' ?> />
-                <?php _e('Show posts under months', 'jalw_i18n') ?>
+                <label for="<?php echo $this->get_field_id( 'showpost' ) ?>">
+                    <?php _e('Show posts under months', 'jalw_i18n') ?>
+                </label>
             </dd>
             <dd>
                 <input id="<?php echo $this->get_field_id( 'onlycategory' ) ?>" name="<?php echo $this->get_field_name( 'onlycategory' ) ?>" type="checkbox" <?php if ($instance['onlycategory']) echo 'checked="checked"' ?> />
-                <?php _e('Show only post from selected category in a category page', 'jalw_i18n') ?>
+                <label for="<?php echo $this->get_field_id( 'onlycategory' ) ?>">
+                    <?php _e('Show only post from selected category in a category page', 'jalw_i18n') ?>
+                </label>
             </dd>
             <dd>
                 <input id="<?php echo $this->get_field_id( 'only_sym_link' ) ?>" name="<?php echo $this->get_field_name( 'only_sym_link' ) ?>" type="checkbox" value="1" <?php if ($instance['only_sym_link']) echo 'checked="checked"' ?> />
-                <?php _e('Only expand/reduce by clicking the symbol', 'jalw_i18n') ?>
+                <label for="<?php echo $this->get_field_id( 'only_sym_link' ) ?>">
+                    <?php _e('Only expand/reduce by clicking the symbol', 'jalw_i18n') ?>
+                </label>
             </dd>
             <dt><strong><?php _e('Exclude categories', 'jalw_i18n') ?></strong></dt>
             <dd>
@@ -478,14 +486,13 @@ class JQArchiveList extends WP_Widget
                     $html.= '<span class="jaw_symbol">' . htmlspecialchars($this->config[$sym_key]) . '</span> ';
                 }
 
-                $html.= $monthFormat;
-
                 if ( $this->config['only_sym_link'] ) {
-                    $text = "</a><a href=\"{$month_url}\" title=\"{$monthFormat}\">";
+                    $html .= "</a><a href=\"{$month_url}\" title=\"{$monthFormat}\">";
                 }
 
+                $html.= $monthFormat;
 
-                if ($this->config['showcount']) {
+                if ( $this->config['showcount'] ) {
                     $html.= " ({$month->posts})";
                 }
 
